@@ -20,17 +20,17 @@ Future<void> addUserDetails(
   return;
 }
 
-Future<String> getBMI() async {
-  double bmi;
-  String email = FirebaseAuth.instance.currentUser.email.toString();
-  FirebaseFirestore.instance
-      .collection('User Details')
-      .doc(email)
-      .get()
-      .then((value) {
-    bmi = value.data()["bmi"];
-    return bmi.toStringAsFixed(2);
-  });
+// Future<String> getBMI() async {
+//   double bmi;
+//   String email = FirebaseAuth.instance.currentUser.email.toString();
+//   FirebaseFirestore.instance
+//       .collection('User Details')
+//       .doc(email)
+//       .get()
+//       .then((value) {
+//     bmi = value.data()["bmi"];
+//     return bmi.toStringAsFixed(2);
+//   });
 
   // @override
   // Widget build(BuildContext context) {
@@ -59,4 +59,4 @@ Future<String> getBMI() async {
   //   },
   // );
   // }
-}
+// }

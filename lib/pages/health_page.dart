@@ -20,8 +20,10 @@ class _HealthPageState extends State<HealthPage> {
       FirebaseFirestore.instance.collection('User Details');
   String email = FirebaseAuth.instance.currentUser.email.toString();
 
-  String heartRate;
-  String oxygenLevel;
+  String heartRate = "---";
+  String oxygenLevel = "---";
+
+  DateTime now = new DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,7 @@ class _HealthPageState extends State<HealthPage> {
           DateTime currentDate;
           data.forEach((key, value) => {
                 currentDate = DateTime.parse(data[key]["timestamp"]),
-                if (currentDate.isAfter(latestDate))
+                if (currentDate.isAfter(now) && currentDate.isAfter(latestDate))
                   {
                     latestDate = currentDate,
                     metric = data[key][dbReading].toString()

@@ -122,6 +122,7 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
                               color: Colors.lightBlueAccent,
                             )),
                         getRiskBtn(),
+                        SizedBox(height: 70),
                         Container(
                             child: Text(
                           riskMessage,
