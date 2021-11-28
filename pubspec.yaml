@@ -37,6 +37,8 @@ dependencies:
   provider: ^5.0.0
   path_provider: ^2.0.2
   flutter_dotenv: ^5.0.0
+  material_design_icons_flutter: ^5.0.6295
+  firebase_database: ^6.0.0
 
 dev_dependencies:
   flutter_test:

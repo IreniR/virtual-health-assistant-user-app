@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 
 class InputTextField extends StatelessWidget {
   final String hintText;
+  final String labelText;
+  final bool obscureText;
   final List<Widget> widgets;
   final Icon icon;
   final TextInputType textInputType;
@@ -15,6 +17,8 @@ class InputTextField extends StatelessWidget {
   InputTextField(
       {Key key,
       this.hintText,
+      this.labelText,
+      this.obscureText,
       this.controller,
       this.widgets,
       this.icon,
@@ -41,6 +45,7 @@ class InputTextField extends StatelessWidget {
               validator: validator,
               onSaved: onSaved,
               controller: controller,
+              obscureText: obscureText,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -50,6 +55,7 @@ class InputTextField extends StatelessWidget {
                 focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue)),
                 hintText: hintText,
+                labelText: labelText,
                 prefixIcon: icon,
               ),
             ),
@@ -83,7 +89,9 @@ Widget doctorType() {
           height: 60,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
+            obscureText: false,
             decoration: InputDecoration(
+              labelText: "Practice",
               border: OutlineInputBorder(),
               hintText: 'Practice',
               prefixIcon: Icon(

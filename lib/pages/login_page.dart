@@ -98,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                           InputTextField(
                             hintText: 'Email',
                             validator: emailValidator,
+                            obscureText: false,
                             keyBoardType: TextInputType.emailAddress,
                             onSaved: (input) => email = input,
                             icon: Icon(
@@ -106,10 +107,11 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           InputTextField(
-                            hintText: 'Password',
-                            keyBoardType: TextInputType.visiblePassword,
                             validator: passwordValidator,
+                            obscureText: true,
+                            keyBoardType: TextInputType.visiblePassword,
                             onSaved: (input) => password = input,
+                            hintText: 'Password',
                             icon: Icon(
                               Icons.lock,
                               color: Colors.lightBlueAccent,
