@@ -39,6 +39,7 @@ dependencies:
   flutter_dotenv: ^5.0.0
   material_design_icons_flutter: ^5.0.6295
   firebase_database: ^6.0.0
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

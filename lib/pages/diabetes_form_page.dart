@@ -36,6 +36,7 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
   }
 
   Future<String> predictDiabetesProbability(var body) async {
+    print(body);
     var client = new http.Client();
     var uri =
         Uri.parse("https://diabetes-prediction-otu.herokuapp.com/predict");

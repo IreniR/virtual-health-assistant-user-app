@@ -9,6 +9,7 @@ import 'package:health_assistant/cards/gender_cards.dart';
 import 'register_page.dart';
 import 'package:intl/intl.dart';
 import 'login_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserDetailsPage extends StatefulWidget {
   static const String id = 'user_details_page';
@@ -225,6 +226,15 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         this.weight,
         this.gender,
       );
+
+      Fluttertoast.showToast(
+        msg: "Successfully Created Account!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
