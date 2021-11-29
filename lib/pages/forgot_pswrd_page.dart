@@ -47,6 +47,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     child: Text('Enter Email To Be Sent Password Reset Link')),
                 InputTextField(
                   hintText: 'Email',
+                  obscureText: false,
                   validator: emailValidator,
                   keyBoardType: TextInputType.text,
                   onSaved: (input) => email = input,

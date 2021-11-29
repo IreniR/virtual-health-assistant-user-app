@@ -49,11 +49,12 @@ class HealthSubCards extends StatelessWidget {
 
 class HealthRiskCards extends StatelessWidget {
   final Text title;
+  final Text value;
   final List<Widget> widgets;
   final VoidCallback onTap;
 
   const HealthRiskCards(
-      {Key key, @required this.title, this.widgets, this.onTap})
+      {Key key, @required this.title, this.value, this.widgets, this.onTap})
       : super(key: key);
 
   @override
@@ -72,10 +73,11 @@ class HealthRiskCards extends StatelessWidget {
               padding: EdgeInsets.all(25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   title,
+                  value,
                 ],
               ),
             ),

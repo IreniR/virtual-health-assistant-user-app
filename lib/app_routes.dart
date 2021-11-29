@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:health_assistant/pages/about_page.dart';
 import 'package:health_assistant/pages/appts_page.dart';
 import 'package:health_assistant/pages/chat_page.dart';
+import 'package:health_assistant/pages/diabetes_form_page.dart';
 import 'package:health_assistant/pages/fitness_page.dart';
 import 'package:health_assistant/pages/forgot_pswrd_page.dart';
 import 'package:health_assistant/pages/health_page.dart';
@@ -12,6 +13,8 @@ import 'package:health_assistant/pages/prescriptions_page.dart';
 import 'package:health_assistant/pages/register_page.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/pages/stats_form_page.dart';
+import 'package:health_assistant/pages/user_details_page.dart';
+import 'package:health_assistant/pages/measure_page.dart';
 
 class AppRoutes {
   static final Map<String, Widget Function(BuildContext)> routeMap = {
@@ -28,5 +31,8 @@ class AppRoutes {
     ChatPage.id: (_) => ChatPage(),
     SubmitHealthFormPage.id: (_) => SubmitHealthFormPage(),
     LaunchScreen.id: (_) => LaunchScreen(),
+    UserDetailsPage.id: (_) => UserDetailsPage(),
+    MeasurePage.id: (_) => MeasurePage(),
+    DiabetesFormPage.id: (_) => DiabetesFormPage(),
   };
 }

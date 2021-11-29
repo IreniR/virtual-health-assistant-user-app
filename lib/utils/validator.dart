@@ -22,8 +22,27 @@ String emailValidator(String input) {
 
 String passwordValidator(String input) {
   if (input.isEmpty) return 'Password cannot be empty';
-  if (!passwordFormat(input)) return 'Password is not of proper format';
+  if (!passwordFormat(input))
+    return 'Password must be at least 6 characters and consist of 1 uppercase letter, \n1 digit, and 1 speial character';
   return null;
+}
+
+String numericValidator(String input) {
+  if (input.isEmpty) return 'Please enter a number';
+  if (double.parse(input) < 0) {
+    return 'Please enter a valid value';
+  }
+  return null;
+}
+
+String dateOfBirthValidator(String input) {
+  if (input.isEmpty) return 'Password cannot be empty';
+  if (!dateOfBirthFormat(input)) return "Please enter in a yyyy/mm/dd format";
+  return null;
+}
+
+bool dateOfBirthFormat(String input) {
+  return new RegExp(r'(\d{4})/(\d{2})/(\d{2})').hasMatch(input);
 }
 
 bool passwordFormat(String input, [int minLength = 6]) {

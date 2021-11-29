@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:health_assistant/model/user_model.dart';
+import 'package:health_assistant/pages/user_details_page.dart';
 import 'package:health_assistant/utils/validator.dart';
 import 'package:health_assistant/widgets/fields.dart';
 //import 'package:toggle_bar/toggle_bar.dart';
@@ -44,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.black,
-              title: Text('Register Patient'),
+              title: Text('Register Page'),
               leading: IconButton(
                 icon: Icon(
                   Icons.chevron_left,
@@ -91,7 +90,9 @@ class _RegisterPageState extends State<RegisterPage> {
             width: MediaQuery.of(context).size.width * 0.8,
           ),
           InputTextField(
+            labelText: 'Full Name',
             hintText: 'Enter Full Name',
+            obscureText: false,
             keyBoardType: TextInputType.name,
             validator: emptyFieldValidator,
             onSaved: (input) => newUsersName = input,
@@ -101,7 +102,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           InputTextField(
+            labelText: 'Email',
             hintText: 'Enter Valid Email',
+            obscureText: false,
             keyBoardType: TextInputType.emailAddress,
             validator: emailValidator,
             onSaved: (input) => validEmail = input,
@@ -111,7 +114,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           InputTextField(
+            labelText: 'Password',
             hintText: 'Enter Valid Password',
+            obscureText: true,
             keyBoardType: TextInputType.text,
             validator: passwordValidator,
             onSaved: (input) => validPassword.text = input,
@@ -122,7 +127,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           InputTextField(
+            labelText: 'Confirm Password',
             hintText: 'Confirm Password',
+            obscureText: true,
             keyBoardType: TextInputType.text,
             controller: confirmPassword,
             validator: (String value) {
@@ -138,66 +145,38 @@ class _RegisterPageState extends State<RegisterPage> {
               color: Colors.lightBlueAccent,
             ),
           ),
-          submitBtn(),
+          userDetailsBtn(context),
         ],
       ),
     );
   }
 
-  Widget submitBtn() {
+  Widget userDetailsBtn(BuildContext context) {
     return Container(
       alignment: FractionalOffset.bottomCenter,
       child: ElevatedButton(
         onPressed: () {
-          if (_formkey.currentState.validate()) {
-            print('successfully logged in');
-            createUser();
+          final formState = _formkey.currentState;
+          if (formState.validate()) {
+            formState.save();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        new UserDetailsPage(validEmail, confirmPassword.text)));
           } else
             return 'unsuccessfully registered user';
         },
         child: Text(
-          'Submit',
-          style: TextStyle(fontSize: 20, color: Colors.black),
+          'Next',
+          style: TextStyle(fontSize: 20, color: Colors.white),
         ),
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 60),
-            primary: Colors.amber,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25))),
+            padding: EdgeInsets.symmetric(horizontal: 70),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+            primary: Colors.cyan),
       ),
     );
-  }
-
-  Future createUser() async {
-    final formState = _formkey.currentState;
-    if (formState.validate()) {
-      //firebase integration
-      formState.save();
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: validEmail, password: confirmPassword.text);
-        User user = userCredential.user;
-        user.sendEmailVerification();
-        User updateUser = FirebaseAuth.instance.currentUser;
-        updateUser.updateProfile(displayName: newUsersName);
-        userSetup(newUsersName, validEmail);
-
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'email-already-in-use') return emailInUse();
-      }
-    }
-  }
-
-  void emailInUse() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Email is Already in Use'),
-          );
-        });
   }
 }
