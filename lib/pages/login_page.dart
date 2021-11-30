@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Colors.lightGreen, Colors.blueAccent])),
+                            colors: [Colors.pinkAccent, Colors.blueAccent])),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 25),
                       child: Column(
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                           Padding(
                             padding: EdgeInsets.only(top: 20, bottom: 25),
                             child: Text(
-                              'FitNess',
+                              'Harmoni',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 40,
