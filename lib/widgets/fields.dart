@@ -53,7 +53,7 @@ class InputTextField extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red)),
                 border: OutlineInputBorder(),
                 focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue)),
+                    borderSide: BorderSide(color: Colors.white)),
                 hintText: hintText,
                 labelText: labelText,
                 prefixIcon: icon,

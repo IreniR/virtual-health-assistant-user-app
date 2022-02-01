@@ -11,12 +11,16 @@ class _CalendarState extends State<Calendar> {
   DateTime currentDate = DateTime.now();
   List<dynamic> selectedEvents;
   CalendarController _calendarController;
+  Map<DateTime, List<dynamic>> _events;
+  TextEditingController _textEditingController;
 
   void initState() {
     super.initState();
     _calendarController = CalendarController();
     selectedDay = DateTime.now();
     selectedEvents = [];
+    _events = {};
+    _textEditingController = TextEditingController();
   }
 
   void _daySelected(DateTime day, List listedDates, List holidays) {

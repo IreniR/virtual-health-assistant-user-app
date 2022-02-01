@@ -42,14 +42,14 @@ Widget registerBtn(BuildContext context) {
             context, MaterialPageRoute(builder: (context) => RegisterPage()));
       },
       child: Text(
-        'Sign Up',
+        'SIGN UP',
         style: TextStyle(fontSize: 20, color: Colors.white),
       ),
       style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 70),
+          padding: EdgeInsets.symmetric(horizontal: 92),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-          primary: Colors.cyan),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          primary: Colors.cyan.shade400),
     ),
   );
 }
@@ -65,70 +65,68 @@ class _LoginPageState extends State<LoginPage> {
           return Future.value(false);
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Form(
-          key: _formkey,
-          child: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.light,
-            child: GestureDetector(
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Colors.pinkAccent, Colors.blueAccent])),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 20, bottom: 25),
-                            child: Text(
-                              'Harmoni',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold),
-                            ),
+              key: _formkey,
+              child: AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle.light,
+                child: GestureDetector(
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                              Colors.pink.shade300,
+                              Colors.pink.shade100,
+                              // Colors.purple.shade50
+                            ])),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.only(top: 20),
+                                  child: Image.asset('assets/logo.png')),
+                              InputTextField(
+                                hintText: 'Email',
+                                validator: emailValidator,
+                                obscureText: false,
+                                keyBoardType: TextInputType.emailAddress,
+                                onSaved: (input) => email = input,
+                                icon: Icon(
+                                  Icons.verified_user_outlined,
+                                  color: Colors.pink.shade900,
+                                ),
+                              ),
+                              InputTextField(
+                                validator: passwordValidator,
+                                obscureText: true,
+                                keyBoardType: TextInputType.visiblePassword,
+                                onSaved: (input) => password = input,
+                                hintText: 'Password',
+                                icon: Icon(
+                                  Icons.lock,
+                                  color: Colors.pink.shade900,
+                                ),
+                              ),
+                              forgotBtn(context),
+                              loginBtn(context),
+                              registerBtn(context),
+                            ],
                           ),
-                          InputTextField(
-                            hintText: 'Email',
-                            validator: emailValidator,
-                            obscureText: false,
-                            keyBoardType: TextInputType.emailAddress,
-                            onSaved: (input) => email = input,
-                            icon: Icon(
-                              Icons.verified_user_outlined,
-                              color: Colors.lightBlueAccent,
-                            ),
-                          ),
-                          InputTextField(
-                            validator: passwordValidator,
-                            obscureText: true,
-                            keyBoardType: TextInputType.visiblePassword,
-                            onSaved: (input) => password = input,
-                            hintText: 'Password',
-                            icon: Icon(
-                              Icons.lock,
-                              color: Colors.lightBlueAccent,
-                            ),
-                          ),
-                          forgotBtn(context),
-                          loginBtn(context),
-                          registerBtn(context),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        )));
+            )));
   }
 
   Future<void> loginUser() async {
@@ -163,14 +161,14 @@ class _LoginPageState extends State<LoginPage> {
           loginUser();
         },
         child: Text(
-          'Login',
+          'LOGIN',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 80),
+            padding: EdgeInsets.symmetric(horizontal: 100),
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-            primary: Colors.red),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            primary: Colors.amber.shade400),
       ),
     );
   }

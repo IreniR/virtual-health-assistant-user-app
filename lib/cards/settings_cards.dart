@@ -13,6 +13,7 @@ class SettingsCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.transparent,
       elevation: 0,
       child: Container(
         padding: EdgeInsets.all(10),

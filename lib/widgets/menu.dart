@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant/pages/chat_page.dart';
-import 'package:health_assistant/pages/fitness_page.dart';
 import 'package:health_assistant/pages/measure_page.dart';
 import 'package:health_assistant/pages/health_page.dart';
 import 'package:health_assistant/pages/settings_page.dart';
@@ -59,7 +58,7 @@ class _NavigationBarState extends State<NavigationPage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.redAccent,
+        selectedItemColor: Colors.pink,
         onTap: _onTapped,
       ),
     );

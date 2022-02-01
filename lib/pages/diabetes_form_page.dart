@@ -30,8 +30,12 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
 
   void setAgeBMI() {
     users.doc(email).get().then((querySnapshot) {
-      age = querySnapshot.data()["age"];
-      bmi = querySnapshot.data()["bmi"];
+      var a = querySnapshot.data() as Map;
+
+      age = a["age"];
+      bmi = a["bmi"];
+      //age = querySnapshot.data()["age"];
+      // bmi = querySnapshot.data()["bmi"];
     });
   }
 

@@ -23,44 +23,64 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           return Future.value(false);
         },
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text('Forgot Password'),
-            leading: IconButton(
-              icon: Icon(
-                Icons.chevron_left,
-                color: Colors.white,
-                size: 30,
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                'Forgot Password',
+                style: TextStyle(color: Colors.pink.shade900),
               ),
-              onPressed: () {
-                Navigator.pop(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              },
-            ),
-          ),
-          body: Form(
-            key: _resetFormkey,
-            child: Column(
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(top: 25, left: 10, right: 10),
-                    child: Text('Enter Email To Be Sent Password Reset Link')),
-                InputTextField(
-                  hintText: 'Email',
-                  obscureText: false,
-                  validator: emailValidator,
-                  keyBoardType: TextInputType.text,
-                  onSaved: (input) => email = input,
-                  icon: Icon(
-                    Icons.verified_user_outlined,
-                    color: Colors.lightBlueAccent,
-                  ),
+              leading: IconButton(
+                icon: Icon(
+                  Icons.chevron_left,
+                  color: Colors.pink.shade900,
+                  size: 30,
                 ),
-                resetPasswordBtn(),
-              ],
+                onPressed: () {
+                  Navigator.pop(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
+              ),
             ),
-          ),
-        ));
+            body: Form(
+              key: _resetFormkey,
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                        center: Alignment.centerRight,
+                        radius: 2,
+                        colors: [
+                      Colors.amber.shade50,
+                      Colors.pink.shade50,
+                      Colors.purple.shade100
+                    ])),
+                child: Column(
+                  children: [
+                    SizedBox(height: 65),
+                    Padding(
+                        padding: EdgeInsets.only(top: 25, left: 10, right: 10),
+                        child: Text(
+                          'Enter Email To Be Sent Password Reset Link',
+                          style: TextStyle(color: Colors.pink.shade900),
+                        )),
+                    InputTextField(
+                      hintText: 'Email',
+                      obscureText: false,
+                      validator: emailValidator,
+                      keyBoardType: TextInputType.text,
+                      onSaved: (input) => email = input,
+                      icon: Icon(
+                        Icons.verified_user_outlined,
+                        color: Colors.pink.shade900,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    resetPasswordBtn(),
+                  ],
+                ),
+              ),
+            )));
   }
 
   Widget resetPasswordBtn() {
@@ -75,7 +95,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 60),
-            primary: Colors.red,
+            primary: Colors.cyan,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25))),
       ),

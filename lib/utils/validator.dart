@@ -15,15 +15,15 @@ bool validateEmail(String value) {
 }
 
 String emailValidator(String input) {
-  if (input.isEmpty) return 'Email cannot be empty';
-  if (!validateEmail(input)) return 'Enter valid email';
+  if (input.isEmpty) return 'Email Cannot Be Empty';
+  if (!validateEmail(input)) return 'Enter Valid Email';
   return null;
 }
 
 String passwordValidator(String input) {
-  if (input.isEmpty) return 'Password cannot be empty';
+  if (input.isEmpty) return 'Password Cannot Be Empty';
   if (!passwordFormat(input))
-    return 'Password must be at least 6 characters and consist of 1 uppercase letter, \n1 digit, and 1 speial character';
+    return 'Password must be at least 6 characters and consist of 1 uppercase letter, \n1 digit, and 1 special character';
   return null;
 }
 

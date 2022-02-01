@@ -41,13 +41,22 @@ class _RegisterPageState extends State<RegisterPage> {
           return Future.value(false);
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
             appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Text('Register Page'),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                "Register Here",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink.shade900,
+                    fontSize: 20),
+              ),
               leading: IconButton(
                 icon: Icon(
                   Icons.chevron_left,
-                  color: Colors.white,
+                  color: Colors.pink.shade900,
                   size: 30,
                 ),
                 onPressed: () {
@@ -58,8 +67,18 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             body: Form(
               key: _formkey,
-              child: SingleChildScrollView(
-                child: Center(
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.only(top: 75),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                        Colors.amber.shade50,
+                        Colors.pink.shade50,
+                        Colors.purple.shade100
+                      ])),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -98,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
             onSaved: (input) => newUsersName = input,
             icon: Icon(
               Icons.verified_user,
-              color: Colors.lightBlueAccent,
+              color: Colors.pink.shade900,
             ),
           ),
           InputTextField(
@@ -110,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
             onSaved: (input) => validEmail = input,
             icon: Icon(
               Icons.email_outlined,
-              color: Colors.lightBlueAccent,
+              color: Colors.pink.shade900,
             ),
           ),
           InputTextField(
@@ -123,9 +142,15 @@ class _RegisterPageState extends State<RegisterPage> {
             controller: validPassword,
             icon: Icon(
               Icons.lock,
-              color: Colors.lightBlueAccent,
+              color: Colors.pink.shade900,
             ),
           ),
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                      'Password must: \n\nConsist at least 6 characters \nConsist of 1 uppercase letter \nConsist 1 digit \nConsist 1 special character'))),
           InputTextField(
             labelText: 'Confirm Password',
             hintText: 'Confirm Password',
@@ -133,16 +158,16 @@ class _RegisterPageState extends State<RegisterPage> {
             keyBoardType: TextInputType.text,
             controller: confirmPassword,
             validator: (String value) {
-              if (value.isEmpty) return 'Field cannot be empty';
+              if (value.isEmpty) return 'Field cannot Be Empty';
               if (confirmPassword.text != validPassword.text)
-                return "Passwords do not match";
+                return "Passwords Do Not Match";
               else
                 return null;
             },
             onSaved: (value) => confirmPassword.text = value,
             icon: Icon(
               Icons.lock,
-              color: Colors.lightBlueAccent,
+              color: Colors.pink.shade900,
             ),
           ),
           userDetailsBtn(context),

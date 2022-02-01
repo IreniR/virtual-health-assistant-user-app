@@ -56,13 +56,17 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
           return Future.value(false);
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
             appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Text('Add Details Page'),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text('Add Details Page',
+                  style: TextStyle(color: Colors.pink.shade900)),
               leading: IconButton(
                 icon: Icon(
                   Icons.chevron_left,
-                  color: Colors.white,
+                  color: Colors.pink.shade900,
                   size: 30,
                 ),
                 onPressed: () {
@@ -73,8 +77,18 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             ),
             body: Form(
               key: _formkey,
-              child: SingleChildScrollView(
-                child: Center(
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.only(top: 75),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                        Colors.amber.shade50,
+                        Colors.pink.shade50,
+                        Colors.purple.shade100
+                      ])),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -101,7 +115,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         onSaved: (input) => calculateAge(input),
         icon: Icon(
           Icons.calendar_today,
-          color: Colors.lightBlueAccent,
+          color: Colors.pink.shade900,
         ),
       ),
       InputTextField(
@@ -113,7 +127,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         onSaved: (input) => weight = double.parse(input),
         icon: Icon(
           Icons.monitor_weight,
-          color: Colors.lightBlueAccent,
+          color: Colors.pink.shade900,
         ),
       ),
       InputTextField(
@@ -125,7 +139,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         onSaved: (input) => height = double.parse(input),
         icon: Icon(
           Icons.height,
-          color: Colors.lightBlueAccent,
+          color: Colors.pink.shade900,
         ),
       ),
       Container(
@@ -148,6 +162,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
               );
             }),
       ),
+      SizedBox(height: 15),
       submitBtn(),
     ]));
   }
@@ -181,7 +196,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         },
         child: Text(
           'Submit',
-          style: TextStyle(fontSize: 20, color: Colors.black),
+          style: TextStyle(fontSize: 20, color: Colors.white),
         ),
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 60),
@@ -228,13 +243,12 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       );
 
       Fluttertoast.showToast(
-        msg: "Successfully Created Account!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+          msg: "Successfully Created Account!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
