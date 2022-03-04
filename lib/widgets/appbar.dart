@@ -12,7 +12,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       @required this.title,
       @required this.appBar,
       this.widgets,
-      this.iconButton})
+      this.iconButton,
+      Null Function() onPressed,
+      IconButton leading})
       : super(key: key);
 
   @override

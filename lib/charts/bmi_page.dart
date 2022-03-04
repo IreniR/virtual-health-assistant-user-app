@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health_assistant/pages/health_page.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class BMIPage extends StatefulWidget {
   static const String id = 'bmi_page';
@@ -84,6 +84,35 @@ class _BMIPageState extends State<BMIPage> {
   }
 
   Widget makePlot(List allData) {
-    return Container();
+    List<ChartData> chartData = <ChartData>[];
+    for (var i = 0; i < allData.length; i++) {
+      var map = allData[i] as Map;
+      chartData
+          .add(new ChartData(map["datetime"].toDate(), map["bmi"].toDouble()));
+    }
+
+    return Scaffold(
+        body: Center(
+            child: Container(
+                child: SfCartesianChart(
+                    primaryXAxis: DateTimeAxis(
+                        //Specified date time interval type in hours
+                        intervalType: DateTimeIntervalType.days),
+                    series: <ChartSeries<ChartData, DateTime>>[
+          LineSeries<ChartData, DateTime>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.x,
+              yValueMapper: (ChartData data, _) => data.y)
+        ]))));
   }
+}
+
+class ChartData {
+  final DateTime time;
+  final double bmi;
+
+  ChartData(this.time, this.bmi);
+
+  get x => this.time;
+  get y => this.bmi;
 }

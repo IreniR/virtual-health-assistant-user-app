@@ -15,7 +15,7 @@ import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/pages/stats_form_page.dart';
 import 'package:health_assistant/pages/user_details_page.dart';
 import 'package:health_assistant/pages/measure_page.dart';
-import 'package:health_assistant/pages/bmi_page.dart';
+import 'package:health_assistant/charts/bmi_page.dart';
 
 class AppRoutes {
   static final Map<String, Widget Function(BuildContext)> routeMap = {

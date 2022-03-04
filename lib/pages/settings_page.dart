@@ -80,7 +80,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           padding: EdgeInsets.all(12),
                           child: Text(
                             auth.currentUser.email,
-                            //'${usersName.text}',
                             style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
