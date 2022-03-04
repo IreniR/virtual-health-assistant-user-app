@@ -10,12 +10,24 @@ Future<void> addUserDetails(
 
   double bmi = weight / pow(height / 100, 2);
 
-  userDetails.doc(email).set({
+  // userDetails.doc(email).set({
+  //   'height': height,
+  //   'weight': weight,
+  //   'age': age,
+  //   'gender': gender,
+  //   'bmi': bmi
+  // }).catchError((error) => print('Add failed: $error'));
+  // return;
+
+  DateTime currentDate = DateTime.now();
+
+  userDetails.doc(email).collection("dates").add({
     'height': height,
     'weight': weight,
     'age': age,
     'gender': gender,
-    'bmi': bmi
+    'bmi': bmi,
+    'datetime': currentDate
   }).catchError((error) => print('Add failed: $error'));
   return;
 }

@@ -5,6 +5,7 @@ import 'package:health_assistant/cards/settings_cards.dart';
 import 'package:health_assistant/pages/about_page.dart';
 import 'package:health_assistant/pages/login_page.dart';
 import 'package:health_assistant/pages/notifications.dart';
+import 'package:health_assistant/forms/update_details_form.dart';
 
 final userRef = FirebaseFirestore.instance.collection('Users');
 final String docId = userRef.id; //Collection name gets printed
@@ -102,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NotificationPage()));
+                                builder: (context) => UpdateDetailsForm()));
                       }),
                   SizedBox(height: 5),
                   SettingsCards(

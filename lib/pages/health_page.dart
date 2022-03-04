@@ -6,6 +6,7 @@ import 'package:health_assistant/pages/appts_page.dart';
 import 'package:health_assistant/pages/prescriptions_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:health_assistant/pages/settings_page.dart';
+import 'package:health_assistant/pages/bmi_page.dart';
 
 class HealthPage extends StatefulWidget {
   static const String id = 'health_page';
@@ -16,8 +17,6 @@ class HealthPage extends StatefulWidget {
 
 class _HealthPageState extends State<HealthPage> {
   final realtimeDatabase = FirebaseDatabase.instance.reference();
-  CollectionReference users =
-      FirebaseFirestore.instance.collection('User Details');
   String email = FirebaseAuth.instance.currentUser.email.toString();
 
   String heartRate = "---";
@@ -28,6 +27,11 @@ class _HealthPageState extends State<HealthPage> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference dates = FirebaseFirestore.instance
+        .collection('User Details')
+        .doc(email)
+        .collection("dates");
+
     return WillPopScope(
         onWillPop: () {
           return Future.value(false);
@@ -91,30 +95,48 @@ class _HealthPageState extends State<HealthPage> {
                     ],
                   ),
                 ),
+
                 Container(
                   height: 450,
                   child: GridView.count(crossAxisCount: 2, children: [
-                    FutureBuilder<DocumentSnapshot>(
-                      future: users.doc(email).get(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return Text("Something went wrong");
-                        }
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          Map<String, dynamic> data = snapshot.data.data();
-                          return HealthRiskCards(
-                            color: Colors.green.shade300,
-                            title: Text('BMI',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20)),
-                            value: Text(data["bmi"].toStringAsFixed(2),
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 50)),
-                          );
-                        }
-                        return CircularProgressIndicator();
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => BMIPage()));
                       },
+                      child: FutureBuilder<QuerySnapshot>(
+                        future: dates.get(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text("Something went wrong");
+                          }
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            final allData = snapshot.data.docs
+                                .map((doc) => doc.data())
+                                .toList();
+                            allData.sort((a, b) {
+                              var adate = (a as Map)["datetime"];
+                              var bdate = (b as Map)["datetime"];
+                              return adate.compareTo(bdate);
+                            });
+                            print(allData);
+                            return HealthRiskCards(
+                              color: Colors.green.shade300,
+                              title: Text('BMI',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20)),
+                              value: Text(
+                                  (allData.last as Map)["bmi"]
+                                      .toStringAsFixed(2),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 50)),
+                            );
+                          }
+                          return CircularProgressIndicator();
+                        },
+                      ),
                     ),
                     streamBuilder(heartRate, "heartRate", "Heart Rate"),
                     streamBuilder(oxygenLevel, "o2sat", "Oxygen Level"),
