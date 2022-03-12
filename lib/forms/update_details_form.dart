@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant/cards/gender_cards.dart';
+import 'package:health_assistant/pages/health_page.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/utils/Gender.dart';
 import 'package:health_assistant/utils/validator.dart';
@@ -178,6 +179,8 @@ class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
           if (_formkey.currentState.validate()) {
             print('successfully logged in');
             updateInformation();
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HealthPage()));
           } else
             return 'unsuccessfully registered user';
         },

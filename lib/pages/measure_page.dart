@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:health_assistant/cards/vital_cards.dart';
+import 'package:health_assistant/pages/body_fat_form_page.dart';
 import 'package:health_assistant/pages/diabetes_form_page.dart';
 import 'package:health_assistant/pages/health_page.dart';
+
+import 'blood_pressure_page.dart';
 
 class MeasurePage extends StatefulWidget {
   static const String id = 'measure_page';
@@ -118,19 +121,19 @@ class _MeasurePageState extends State<MeasurePage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                HealthPage()));
+                                                BodyFatFormPage()));
                                   },
                                   child: HealthSubCards(
                                     color: Colors.pink.shade200,
                                     title: Text(
-                                      'Heart Rate',
+                                      'Body Fat',
                                       style: TextStyle(
                                           color: Colors.pink.shade900,
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     subtitle: Text(
-                                        'The number of heartbeats per unit of time, usually per minute. Learn more about your heart rate.',
+                                        'Body Fat. Learn more about your Body Fat percentage.',
                                         style: TextStyle(
                                           color: Colors.pink.shade900,
                                           fontSize: 10,
@@ -141,31 +144,8 @@ class _MeasurePageState extends State<MeasurePage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => HealthPage()));
-                                },
-                                child: HealthSubCards(
-                                  color: Colors.amber.shade200,
-                                  title: Text(
-                                    'Oxygen Saturation',
-                                    style: TextStyle(
-                                        color: Colors.yellow.shade900,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(
-                                      'A measure of how much hemoglobin is currently bound to oxygen compared to how much hemoglobin remains unbound.',
-                                      style: TextStyle(
-                                        color: Colors.yellow.shade900,
-                                        fontSize: 10,
-                                      )),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HealthPage()));
+                                          builder: (context) =>
+                                              BloodPressurePage()));
                                 },
                                 child: HealthSubCards(
                                   color: Colors.blue.shade200,

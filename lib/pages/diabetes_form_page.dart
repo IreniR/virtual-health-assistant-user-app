@@ -15,10 +15,13 @@ class DiabetesFormPage extends StatefulWidget {
   _DiabetesFormPageState createState() => _DiabetesFormPageState();
 }
 
+String email = FirebaseAuth.instance.currentUser.email.toString();
+
 class _DiabetesFormPageState extends State<DiabetesFormPage> {
-  CollectionReference users =
-      FirebaseFirestore.instance.collection('User Details');
-  String email = FirebaseAuth.instance.currentUser.email.toString();
+  CollectionReference dates = FirebaseFirestore.instance
+      .collection('User Details')
+      .doc(email)
+      .collection("dates");
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   double glucose;
@@ -29,13 +32,16 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
   String riskMessage = '';
 
   void setAgeBMI() {
-    users.doc(email).get().then((querySnapshot) {
-      var a = querySnapshot.data() as Map;
-
-      age = a["age"];
-      bmi = a["bmi"];
-      //age = querySnapshot.data()["age"];
-      // bmi = querySnapshot.data()["bmi"];
+    dates.get().then((querySnapshot) {
+      final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+      allData.sort((a, b) {
+        var adate = (a as Map)["datetime"];
+        var bdate = (b as Map)["datetime"];
+        return adate.compareTo(bdate);
+      });
+      final last = allData.last as Map;
+      age = last["age"];
+      bmi = last["bmi"];
     });
   }
 
