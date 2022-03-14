@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_assistant/charts/charts.dart';
-import 'package:health_assistant/chat/messaging.dart';
 import 'package:health_assistant/pages/health_page.dart';
-import 'package:health_assistant/widgets/appbar.dart';
 import 'package:toggle_bar/toggle_bar.dart';
 
 class ChartPage extends StatefulWidget {
@@ -16,12 +14,12 @@ class _ChartPageState extends State<ChartPage> {
   List<String> labels = ['BMI', 'BODY FAT'];
   int counter = 0;
 
-  Widget chatType(BuildContext context) {
+  Widget chartType(BuildContext context) {
     switch (counter) {
       case 0:
         return (bmi(context));
       case 1:
-        return (messageDoctor(context));
+        return (bodyfat(context));
       default:
         return Container(color: Colors.transparent);
     }
@@ -34,20 +32,19 @@ class _ChartPageState extends State<ChartPage> {
           return Future.value(false);
         },
         child: Scaffold(
-          appBar: BaseAppBar(
+          appBar: AppBar(
+            backgroundColor: Colors.pink,
             title: Text('Charts'),
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: Colors.pink.shade900,
-                  size: 30,
-                ),
-                onPressed: () {
-                  Navigator.pop(context,
-                      MaterialPageRoute(builder: (context) => HealthPage()));
-                },
+            leading: IconButton(
+              icon: Icon(
+                Icons.chevron_left,
+                color: Colors.white,
+                size: 30,
               ),
+              onPressed: () {
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => HealthPage()));
+              },
             ),
           ),
           body: Container(
@@ -67,7 +64,7 @@ class _ChartPageState extends State<ChartPage> {
                       },
                     ),
                     SizedBox(height: 10),
-                    chatType(context),
+                    chartType(context),
                   ],
                 ),
               ),

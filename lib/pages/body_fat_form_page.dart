@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:health_assistant/model/user_body_fat_model.dart';
 import 'package:health_assistant/utils/validator.dart';
 import 'package:health_assistant/widgets/fields.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,7 @@ class _BodyFatFormPageState extends State<BodyFatFormPage> {
     });
   }
 
-  Future<String> predictDiabetesProbability(var body) async {
+  Future<String> measureBodyFat(var body) async {
     print(body);
     var client = new http.Client();
     var uri = Uri.parse("https://bodyfat-prediction-otu.herokuapp.com/predict");
@@ -258,11 +259,12 @@ class _BodyFatFormPageState extends State<BodyFatFormPage> {
               "wrist": wrist
             }
           ];
-          var resp = await predictDiabetesProbability(body);
+          var resp = await measureBodyFat(body);
           print(resp);
           setState(() {
             riskMessage = "Your Body Fat is: " + resp + "%";
           });
+          addUserBodyFat(email, double.parse(resp));
         },
         child: Text("Get Body Fat",
             style: TextStyle(color: Colors.black, fontSize: 20)),

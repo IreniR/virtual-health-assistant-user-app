@@ -147,19 +147,19 @@ class _HealthPageState extends State<HealthPage> {
                             MaterialPageRoute(
                                 builder: (context) => ChartPage()));
                       },
-                      child: Card(
-                          color: Colors.pink.shade50,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          child: Container(
-                              child: Padding(
-                                  padding: EdgeInsets.all(25),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                  )))),
+                      child: HealthSubCards(
+                        color: Colors.pink.shade50,
+                        title: Text(
+                          'Progress',
+                          style: TextStyle(color: Colors.black, fontSize: 25),
+                          textAlign: TextAlign.center,
+                        ),
+                        icon: Icon(
+                          Icons.trending_up,
+                          color: Colors.deepPurple.shade900,
+                          size: 120,
+                        ),
+                      ),
                     )),
                 SizedBox(
                   height: 250,
