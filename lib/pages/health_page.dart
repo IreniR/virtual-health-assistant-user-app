@@ -8,6 +8,7 @@ import 'package:health_assistant/pages/prescriptions_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/charts/bmi_page.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 class HealthPage extends StatefulWidget {
   static const String id = 'health_page';
@@ -20,11 +21,27 @@ class _HealthPageState extends State<HealthPage> {
   final realtimeDatabase = FirebaseDatabase.instance.reference();
   String email = FirebaseAuth.instance.currentUser.email.toString();
 
+  // BLE config
+  FlutterBlue flutterBlue = FlutterBlue.instance;
+
   String heartRate = "---";
   String oxygenLevel = "---";
   String bloodPressure = "---";
 
   DateTime now = new DateTime.now();
+
+  getDevice() async {
+    flutterBlue.startScan(timeout: Duration(seconds: 5));
+    flutterBlue.connectedDevices.asStream().listen((List<BluetoothDevice> devices) async {
+      for (BluetoothDevice device in devices) {
+        if (device.name == "capstonepi") {
+          await device.connect();
+          flutterBlue.stopScan();
+          return device;
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +141,7 @@ class _HealthPageState extends State<HealthPage> {
                                     color: Colors.white, fontSize: 20)),
                             value: Text(
                                 (allData.last as Map)["bmi"].toStringAsFixed(2),
+                                // "16",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 50)),
                           );
@@ -131,10 +149,11 @@ class _HealthPageState extends State<HealthPage> {
                         return CircularProgressIndicator();
                       },
                     ),
-                    streamBuilder(heartRate, "heartRate", "Heart Rate"),
-                    streamBuilder(oxygenLevel, "o2sat", "Oxygen Level"),
-                    streamBuilder(
-                        bloodPressure, "bloodPressure", "Blood Pressure")
+                    streamBuilder(heartRate, "heartRate", "Heart Rate", Colors.blue.shade200),
+                    streamBuilder(oxygenLevel, "o2sat", "Oxygen Level", Color.fromARGB(255, 255, 179, 128)),
+                    streamBuilder(bloodPressure, "bloodPressure", "Blood Pressure", Color.fromARGB(255, 200, 147, 216)),
+                    // streamBuilderBLE(heartRate, "00000002-710e-4a5b-8d75-3e5b444bc3cf", "Heart Rate"),
+                    // streamBuilderBLE(oxygenLevel, "00000003-710e-4a5b-8d75-3e5b444bc3cf", "Oxygen Level")
                   ]),
                 ),
                 SizedBox(
@@ -212,7 +231,41 @@ class _HealthPageState extends State<HealthPage> {
         )));
   }
 
-  Widget streamBuilder(String metric, String dbReading, String textFormatting) {
+  Widget streamBuilderBLE(String metric, String charUuid, String textFormatting) {
+    final String SVC_UUID = "00000001-710e-4a5b-8d75-3e5b444bc3cf";
+    final device = getDevice();
+
+    BluetoothService metricService;
+    List<BluetoothService> services = device.discoverServices();
+    services.forEach((service) {
+      if (service.uuid == Guid(SVC_UUID)) {
+        metricService = service;
+      }
+    });
+
+    BluetoothCharacteristic metricChar;
+    List<BluetoothCharacteristic> characteristics = metricService.characteristics;
+    characteristics.forEach((char) {
+      if (char.uuid == Guid(charUuid)) {
+        metricChar = char;
+      }
+    });
+
+    return StreamBuilder(
+      stream: metricChar.value,
+      builder: (context, snapshot) {
+        return HealthRiskCards(
+          color: Colors.blue.shade200,
+          title: Text(textFormatting,
+              style: TextStyle(color: Colors.white, fontSize: 20)),
+          value: Text(metric,
+              style: TextStyle(color: Colors.white, fontSize: 60)),
+        );
+      }
+    );
+  }
+
+  Widget streamBuilder(String metric, String dbReading, String textFormatting, Color widgetColour) {
     return StreamBuilder(
       stream: realtimeDatabase.child('measurements/2: Push').onValue,
       builder: (context, snapshot) {
@@ -230,9 +283,9 @@ class _HealthPageState extends State<HealthPage> {
                   }
               });
           return HealthRiskCards(
-            color: Colors.blue.shade200,
+            color: widgetColour,
             title: Text(textFormatting,
-                style: TextStyle(color: Colors.white, fontSize: 20)),
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 16)),
             value: Text(metric,
                 style: TextStyle(color: Colors.white, fontSize: 60)),
           );

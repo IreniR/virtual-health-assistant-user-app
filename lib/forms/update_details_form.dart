@@ -10,6 +10,7 @@ import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/utils/Gender.dart';
 import 'package:health_assistant/utils/validator.dart';
 import 'package:health_assistant/widgets/fields.dart';
+import 'package:health_assistant/widgets/menu.dart';
 import 'package:intl/intl.dart';
 
 class UpdateDetailsForm extends StatefulWidget {
@@ -180,7 +181,7 @@ class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
             print('successfully logged in');
             updateInformation();
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HealthPage()));
+                context, MaterialPageRoute(builder: (context) => NavigationPage()));
           } else
             return 'unsuccessfully registered user';
         },
