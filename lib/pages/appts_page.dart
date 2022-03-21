@@ -37,8 +37,8 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
           DateTime.utc(event.date.year, event.date.month, event.date.day, 12);
       if (_groupedEvents[date] == null) {
         _groupedEvents[date] = [];
-        _groupedEvents[date].add(event);
       }
+      _groupedEvents[date].add(event);
     });
   }
 

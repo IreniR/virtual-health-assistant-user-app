@@ -59,9 +59,9 @@ class EventModel {
       title: data['title'],
       id: id,
       desc: data['desc'],
-      date: DateTime.fromMillisecondsSinceEpoch(data['date']),
+      date: data['date'].toDate(),
       userID: data['user_id'],
-      timeOfDay: DateTime.fromMillisecondsSinceEpoch(data['timeOfDay']),
+      timeOfDay: data['timeOfDay'].toDate(),
     );
   }
 

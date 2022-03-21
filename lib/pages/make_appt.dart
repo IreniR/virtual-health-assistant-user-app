@@ -76,7 +76,7 @@ class _MakeApptPageState extends State<MakeApptPage> {
                     validator: FormBuilderValidators.compose(
                         [FormBuilderValidators.required(context)]),
                     name: "title",
-                    initialValue: widget.event?.title,
+                    // initialValue: widget.event?.title,
                     decoration: InputDecoration(
                         hintText: "Title",
                         border: InputBorder.none,
@@ -84,7 +84,7 @@ class _MakeApptPageState extends State<MakeApptPage> {
                   ),
                   FormBuilderTextField(
                     name: "desc",
-                    initialValue: widget.event?.desc,
+                    // initialValue: widget.event?.desc,
                     decoration: InputDecoration(
                         hintText: "Description",
                         border: InputBorder.none,
@@ -148,11 +148,6 @@ class _MakeApptPageState extends State<MakeApptPage> {
             final data = Map<String, dynamic>.from(
                 _formAppointmentkey.currentState.value);
 
-            data['date'] = (data['date'] as DateTime).millisecondsSinceEpoch;
-            data['timeOfDay'] =
-                (data['timeOfDay'] as DateTime).millisecondsSinceEpoch;
-// DateTime.fromMillisecondsSinceEpoch(data['timeOfDay']);
-
             if (widget.event == null) {
               data['user_id'] = FirebaseAuth.instance.currentUser.email;
               print(data);
@@ -160,27 +155,20 @@ class _MakeApptPageState extends State<MakeApptPage> {
               await eventDatabaseService.create(data);
               //create new event in firestore
 
-              // print((data['timeOfDay']));
-              DateTime dt = (data['timeOfDay'] as DateTime);
+              print((data['timeOfDay']));
+              DateTime dt = data["timeOfDay"];
 
-              print(dt);
-              //format this to get value of actual date
+              int setHr = dt.hour;
 
-              // String dt = DateFormat('hh:mm a').format(data['timeOfDay']);
-              // print(dt);
+              int setMin = dt.minute;
+              print(setHr);
+              print(setMin);
 
-              // String setHr = DateFormat('HH').format(widget.event.timeOfDay);
-
-              // String setMin = DateFormat("mm").format(widget.event.timeOfDay);
-              // print(int.parse(setHr));
-              // print(int.parse(setMin));
-
-              // NotificationApi.showScheduledNotification(
-              //     title: titleController.text,
-              //     body: descController.text,
-              //     payload: widget.event.id.toString(),
-              //     scheduledDate: widget.pickedDate.add(Duration(
-              //         hours: int.parse(setHr), minutes: int.parse(setMin))));
+              NotificationApi.showScheduledNotification(
+                  title: titleController.text,
+                  body: descController.text,
+                  payload: data["user_id"],
+                  scheduledDate: data["timeOfDay"]);
             } else {
               //remove before being updated
               await eventDatabaseService.updateData(widget.event.id, data);
