@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant/cards/gender_cards.dart';
-import 'package:health_assistant/pages/health_page.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/utils/Gender.dart';
 import 'package:health_assistant/utils/validator.dart';
@@ -30,12 +29,15 @@ class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
   double height;
   double weight;
   String gender;
+  Key key;
   DateTime currentDate = DateTime.now();
 
   _UpdateDetailsFormState() {
-    genders.add(new Gender("Male", Icons.male, false));
-    genders.add(new Gender("Female", Icons.female, false));
-    genders.add(new Gender("Other", Icons.transgender, false));
+    genders.add(new Gender("Male", Icons.male, false, Key('maleGenderCard')));
+    genders.add(
+        new Gender("Female", Icons.female, false, Key('femaleGenderCard')));
+    genders.add(
+        new Gender("Other", Icons.transgender, false, Key('otherGenderCard')));
   }
 
   @override
@@ -180,8 +182,8 @@ class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
           if (_formkey.currentState.validate()) {
             print('successfully logged in');
             updateInformation();
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => NavigationPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NavigationPage()));
           } else
             return 'unsuccessfully registered user';
         },

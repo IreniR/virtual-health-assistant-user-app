@@ -40,21 +40,21 @@ class _HealthPageState extends State<HealthPage> {
   getDevice() async {
     flutterBlue.startScan(timeout: Duration(seconds: 5));
     // ignore: cancel_subscriptions
-      var subscription = flutterBlue.scanResults.listen((results) {
-        // do something with scan results
-        for (ScanResult r in results) {
-            if (r.device.name == "capstonepi") {
-              print(r.device.name);
-              bleDevice = r.device;
-              bleDevice.connect();
-              print(bleDevice);
-              // print(bleDevice);
-              print("test");
-              flutterBlue.stopScan();
-              break;
-            }
+    var subscription = flutterBlue.scanResults.listen((results) {
+      // do something with scan results
+      for (ScanResult r in results) {
+        if (r.device.name == "capstonepi") {
+          print(r.device.name);
+          bleDevice = r.device;
+          bleDevice.connect();
+          print(bleDevice);
+          // print(bleDevice);
+          print("test");
+          flutterBlue.stopScan();
+          break;
         }
-      });
+      }
+    });
   }
 
   // MQTT Config
@@ -65,12 +65,12 @@ class _HealthPageState extends State<HealthPage> {
     client.logging(on: false);
     client.keepAlivePeriod = 20;
     final connMess = MqttConnectMessage()
-      .withClientIdentifier('Mqtt_MyClientUniqueID')
-      .withWillTopic('willTopic')
-      .withWillMessage('willMessage')
-      .startClean()
-      .withWillQos(MqttQos.atLeastOnce);
-    
+        .withClientIdentifier('Mqtt_MyClientUniqueID')
+        .withWillTopic('willTopic')
+        .withWillMessage('willMessage')
+        .startClean()
+        .withWillQos(MqttQos.atLeastOnce);
+
     client.connectionMessage = connMess;
 
     try {
@@ -130,6 +130,7 @@ class _HealthPageState extends State<HealthPage> {
                           Padding(
                             padding: EdgeInsets.only(top: 20, left: 15),
                             child: CircleAvatar(
+                              key: Key('userAvatar'),
                               backgroundColor: Colors.black,
                               backgroundImage: NetworkImage(
                                   'https://via.placeholder.com/150'),
@@ -189,33 +190,51 @@ class _HealthPageState extends State<HealthPage> {
                           });
                           print(allData);
                           return HealthRiskCards(
+                            key: Key('bmiCard'),
                             color: Colors.green.shade300,
                             title: Text('BMI',
                                 style: TextStyle(
-                                    color: Colors.black.withOpacity(0.5), fontSize: 20, fontWeight: FontWeight.bold)),
+                                    color: Colors.black.withOpacity(0.5),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
                             value: Text(
                                 (allData.last as Map)["bmi"].toStringAsFixed(2),
                                 // "16",
                                 style: TextStyle(
-                                    color: Colors.black.withOpacity(0.5), fontSize: 45, fontWeight: FontWeight.bold)),
+                                    color: Colors.black.withOpacity(0.5),
+                                    fontSize: 45,
+                                    fontWeight: FontWeight.bold)),
                           );
                         }
                         return CircularProgressIndicator();
                       },
                     ),
                     GestureDetector(
-                      onTap: () {
-                        mqttPublish("hr");
-                      },
-                      child: streamBuilder(heartRate, "heartRate", "Heart Rate", Colors.blue.shade200)
-                    ),
+                        onTap: () {
+                          mqttPublish("hr");
+                        },
+                        child: streamBuilder(
+                            heartRate,
+                            "heartRate",
+                            "Heart Rate",
+                            Colors.blue.shade200,
+                            Key('heartRate'))),
                     GestureDetector(
-                      onTap: () {
-                        mqttPublish("ox");
-                      },
-                      child: streamBuilder(oxygenLevel, "o2sat", "Oxygen Level", Color.fromARGB(255, 255, 179, 128))
-                    ),
-                    streamBuilder(bloodPressure, "bloodPressure", "Blood Pressure", Color.fromARGB(255, 200, 147, 216)),
+                        onTap: () {
+                          mqttPublish("ox");
+                        },
+                        child: streamBuilder(
+                            oxygenLevel,
+                            "o2sat",
+                            "Oxygen Level",
+                            Color.fromARGB(255, 255, 179, 128),
+                            Key('oxygenLvl'))),
+                    streamBuilder(
+                        bloodPressure,
+                        "bloodPressure",
+                        "Blood Pressure",
+                        Color.fromARGB(255, 200, 147, 216),
+                        Key('bloodPressure')),
                     // streamBuilderBLE(heartRate, "00000002-710e-4a5b-8d75-3e5b444bc3cf", "Heart Rate", Colors.blue.shade200),
                     // streamBuilderBLE(oxygenLevel, "00000003-710e-4a5b-8d75-3e5b444bc3cf", "Oxygen Level", Color.fromARGB(255, 255, 179, 128))
                   ]),
@@ -234,7 +253,9 @@ class _HealthPageState extends State<HealthPage> {
                         color: Colors.pink.shade50,
                         title: Text(
                           'Progress',
-                          style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 25),
+                          style: TextStyle(
+                              color: Colors.black.withOpacity(0.5),
+                              fontSize: 25),
                           textAlign: TextAlign.center,
                         ),
                         icon: Icon(
@@ -295,34 +316,31 @@ class _HealthPageState extends State<HealthPage> {
         )));
   }
 
-
-
-
-  getCharacteristic(charUuid) async{
+  getCharacteristic(charUuid) async {
     final String SVC_UUID = "00000001-710e-4a5b-8d75-3e5b444bc3cf";
     // getDevice();
     flutterBlue.startScan(timeout: Duration(seconds: 5));
     // ignore: cancel_subscriptions
-      var subscription = flutterBlue.scanResults.listen((results) {
-        // do something with scan results
-        for (ScanResult r in results) {
-            if (r.device.name == "capstonepi") {
-              print(r.device.name);
-              bleDevice = r.device;
-              bleDevice.connect();
-              print(bleDevice);
-              // print(bleDevice);
-              print("test");
-              flutterBlue.stopScan();
-              break;
-            }
+    var subscription = flutterBlue.scanResults.listen((results) {
+      // do something with scan results
+      for (ScanResult r in results) {
+        if (r.device.name == "capstonepi") {
+          print(r.device.name);
+          bleDevice = r.device;
+          bleDevice.connect();
+          print(bleDevice);
+          // print(bleDevice);
+          print("test");
+          flutterBlue.stopScan();
+          break;
         }
-      });
+      }
+    });
 
     // connectToDevice();]
     await Future.delayed(Duration(seconds: 3));
 
-    print("get char"); 
+    print("get char");
     if (bleDevice != null) {
       List<BluetoothService> services = await bleDevice.discoverServices();
       // BluetoothService metricService;
@@ -333,38 +351,45 @@ class _HealthPageState extends State<HealthPage> {
           print("service uuid");
           service.characteristics.forEach((characteristic) {
             if (characteristic.uuid.toString() == charUuid) {
-              bleStream = characteristic.value;  
-              print(bleStream);          }
+              bleStream = characteristic.value;
+              print(bleStream);
+            }
           });
         }
       });
     }
   }
 
-  Widget streamBuilderBLE(String metric, String charUuid, String textFormatting, Color widgetColor) {
-
+  Widget streamBuilderBLE(String metric, String charUuid, String textFormatting,
+      Color widgetColor) {
     getCharacteristic(charUuid);
 
     return StreamBuilder(
-      stream: bleStream,
-      builder: (context, snapshot) {
-        print("snapshot test");
-        if (snapshot.hasData) {
-          metric = snapshot.data.toString();
-          return HealthRiskCards(
-            color: widgetColor,
-            title: Text(textFormatting,
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5), fontSize: 16, fontWeight: FontWeight.bold)),
-            value: Text(metric,
-                style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 60, fontWeight: FontWeight.bold)),
-          );
-        }
-        return CircularProgressIndicator();
-      }
-    );
+        stream: bleStream,
+        builder: (context, snapshot) {
+          print("snapshot test");
+          if (snapshot.hasData) {
+            metric = snapshot.data.toString();
+            return HealthRiskCards(
+              color: widgetColor,
+              title: Text(textFormatting,
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold)),
+              value: Text(metric,
+                  style: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                      fontSize: 60,
+                      fontWeight: FontWeight.bold)),
+            );
+          }
+          return CircularProgressIndicator();
+        });
   }
 
-  Widget streamBuilder(String metric, String dbReading, String textFormatting, Color widgetColour) {
+  Widget streamBuilder(String metric, String dbReading, String textFormatting,
+      Color widgetColour, Key key) {
     return StreamBuilder(
       stream: realtimeDatabase.child('measurements/2: Push').onValue,
       builder: (context, snapshot) {
@@ -384,9 +409,15 @@ class _HealthPageState extends State<HealthPage> {
           return HealthRiskCards(
             color: widgetColour,
             title: Text(textFormatting,
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5), fontSize: 16, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold)),
             value: Text(metric,
-                style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 60, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    color: Colors.black.withOpacity(0.5),
+                    fontSize: 60,
+                    fontWeight: FontWeight.bold)),
           );
         }
         return CircularProgressIndicator();

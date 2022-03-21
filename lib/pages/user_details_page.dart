@@ -38,15 +38,18 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   double height;
   double weight;
   String gender;
+  Key key;
   DateTime currentDate = DateTime.now();
 
   _UserDetailsPageState(String validEmail, String password) {
     this.validEmail = validEmail;
     this.password = password;
 
-    genders.add(new Gender("Male", Icons.male, false));
-    genders.add(new Gender("Female", Icons.female, false));
-    genders.add(new Gender("Other", Icons.transgender, false));
+    genders.add(new Gender("Male", Icons.male, false, Key('maleGenderCard')));
+    genders.add(
+        new Gender("Female", Icons.female, false, Key('femaleGenderCard')));
+    genders.add(
+        new Gender("Other", Icons.transgender, false, Key('otherGenderCard')));
   }
 
   @override
@@ -64,6 +67,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
               title: Text('Add Details Page',
                   style: TextStyle(color: Colors.pink.shade900)),
               leading: IconButton(
+                key: Key('userDetailsBackBtn'),
                 icon: Icon(
                   Icons.chevron_left,
                   color: Colors.pink.shade900,
@@ -107,6 +111,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         width: MediaQuery.of(context).size.width * 0.8,
       ),
       InputTextField(
+        key: Key('dobField'),
         labelText: "Date of Birth",
         hintText: "Date of Birth (yyyy/mm/dd)",
         obscureText: false,
@@ -119,6 +124,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         ),
       ),
       InputTextField(
+        key: Key('weightField'),
         labelText: 'Weight',
         hintText: 'Weight (kg)',
         obscureText: false,
@@ -131,6 +137,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         ),
       ),
       InputTextField(
+        key: Key('heightField'),
         labelText: 'Height',
         hintText: 'Height (cm)',
         obscureText: false,
@@ -150,6 +157,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             itemCount: genders.length,
             itemBuilder: (context, index) {
               return InkWell(
+                key: Key(gender),
                 onTap: () {
                   setState(() {
                     genders.forEach((gender) => gender.isSelected = false);
@@ -187,6 +195,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     return Container(
       alignment: FractionalOffset.bottomCenter,
       child: ElevatedButton(
+        key: Key('submitBtn'),
         onPressed: () {
           if (_formkey.currentState.validate()) {
             print('successfully logged in');
@@ -260,6 +269,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            key: Key('emailInUseAlert'),
             title: Text('Email is Already in Use'),
           );
         });

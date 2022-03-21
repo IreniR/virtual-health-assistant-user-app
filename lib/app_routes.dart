@@ -16,8 +16,13 @@ import 'package:health_assistant/pages/stats_form_page.dart';
 import 'package:health_assistant/pages/user_details_page.dart';
 import 'package:health_assistant/pages/measure_page.dart';
 import 'package:health_assistant/charts/bmi_page.dart';
+import 'package:health_assistant/pages/view_event.dart';
 
 class AppRoutes {
+  static const String addEvent = "addEvent";
+  static const String editEvent = "editEvent";
+  static const String deleteEvent = "deleteEvent";
+
   static final Map<String, Widget Function(BuildContext)> routeMap = {
     LoginPage.id: (_) => LoginPage(),
     SettingsPage.id: (_) => SettingsPage(),
@@ -36,5 +41,6 @@ class AppRoutes {
     MeasurePage.id: (_) => MeasurePage(),
     DiabetesFormPage.id: (_) => DiabetesFormPage(),
     BMIPage.id: (_) => BMIPage(),
+    ViewEventPage.id: (_) => ViewEventPage(),
   };
 }

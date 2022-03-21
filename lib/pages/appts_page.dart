@@ -1,97 +1,222 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_helpers/firebase_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:health_assistant/pages/health_page.dart';
-import 'package:health_assistant/widgets/calendar.dart';
+import 'package:health_assistant/model/event_model.dart';
+import 'package:health_assistant/pages/make_appt.dart';
+import 'package:health_assistant/pages/view_event.dart';
+import 'package:health_assistant/utils/events/event_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AppointmentsPage extends StatefulWidget {
-  static const String id = 'appointments_page';
+  static var id;
 
   @override
   _AppointmentsPageState createState() => _AppointmentsPageState();
 }
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
-  TextEditingController _textEditingController;
-  Map<DateTime, List<dynamic>> _events;
-  // SharedPreferences prefs;
+  CalendarController _controller;
+  List<dynamic> _selectedEvents;
 
-  Map<DateTime, dynamic> decodeMap(Map<String, dynamic> map) {
-    Map<DateTime, dynamic> newMap = {};
+  final GlobalKey<FormState> _formAppointmentkey = GlobalKey<FormState>();
 
-    map.forEach((key, value) {
-      newMap[DateTime.parse(key)] = map[key];
-    });
-
-    return newMap;
+  @override
+  void initState() {
+    super.initState();
+    _controller = CalendarController();
+    _selectedEvents = [];
   }
 
-  Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map) {
-    Map<String, dynamic> newMap = {};
+  Map<DateTime, List<EventModel>> _groupedEvents;
 
-    map.forEach((key, value) {
-      newMap[key.toString()] = map[key];
+  _events(List<EventModel> events) {
+    _groupedEvents = {};
+    events.forEach((event) {
+      DateTime date =
+          DateTime.utc(event.date.year, event.date.month, event.date.day, 12);
+      if (_groupedEvents[date] == null) {
+        _groupedEvents[date] = [];
+        _groupedEvents[date].add(event);
+      }
     });
-
-    return newMap;
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          return Future.value(false);
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text('Schedule'),
-            leading: IconButton(
-              icon: Icon(Icons.chevron_left_outlined,
-                  size: 20, color: Colors.white),
-              onPressed: () {
-                Navigator.pop(context,
-                    MaterialPageRoute(builder: (context) => HealthPage()));
-              },
+    return Scaffold(
+      body: SingleChildScrollView(
+          child: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            gradient: RadialGradient(
+                center: Alignment.centerRight,
+                radius: 2,
+                colors: [
+              Colors.amber.shade50,
+              Colors.pink.shade50,
+              Colors.purple.shade100
+            ])),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(top: 30)),
+            Row(
+              children: [
+                IconButton(
+                  key: Key('apptsBackBtn'),
+                  icon: Icon(
+                    Icons.chevron_left,
+                    color: Colors.pink.shade900,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AppointmentsPage()));
+                  },
+                ),
+                Text('Schedule A Reminder',
+                    style: TextStyle(
+                        color: Colors.pink.shade900,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)),
+              ],
             ),
-          ),
-          body: Column(
-            children: [
-              Calendar(),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _showScheduleDialog;
-            },
-            backgroundColor: Colors.black,
-            child: Icon(Icons.add),
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        ));
-  }
-
-  _showScheduleDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: TextField(controller: _textEditingController),
-        actions: [
-          TextButton(
-            onPressed: () {
-              if (_textEditingController.text.isEmpty) return;
-              if (_events[CalendarController().selectedDay] != null) {
-                _events[CalendarController().selectedDay]
-                    .add(_textEditingController);
-              } else {
-                _events[CalendarController().selectedDay] = [
-                  _textEditingController.text
-                ];
-              }
-            },
-            child: Text('Save Date'),
-          )
-        ],
+            StreamBuilder(
+                stream: eventDatabaseService.streamQueryList(args: [
+                  QueryArgsV2("user_id",
+                      isEqualTo: FirebaseAuth.instance.currentUser.email)
+                ]),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    List<EventModel> events = snapshot.data;
+                    _events(events);
+                    DateTime selectedDate = _controller.selectedDay;
+                    final _selectEvents = _groupedEvents[selectedDate] ?? [];
+                    return Column(children: [
+                      Card(
+                          child: TableCalendar(
+                        events: _groupedEvents,
+                        initialCalendarFormat: CalendarFormat.month,
+                        calendarStyle: CalendarStyle(
+                            markersColor: Colors.pink.shade100,
+                            canEventMarkersOverflow: true,
+                            todayColor: Colors.pink.shade200,
+                            selectedColor: Colors.pink.shade300,
+                            todayStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.black)),
+                        headerStyle: HeaderStyle(
+                          centerHeaderTitle: true,
+                          formatButtonDecoration: BoxDecoration(
+                            color: Colors.pink.shade600,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          formatButtonTextStyle: TextStyle(color: Colors.white),
+                          formatButtonShowsNext: false,
+                        ),
+                        startingDayOfWeek: StartingDayOfWeek.sunday,
+                        onDaySelected: (date, events, holidays) {
+                          setState(() {});
+                        },
+                        builders: CalendarBuilders(
+                          selectedDayBuilder: (context, date, events) =>
+                              Container(
+                                  margin: const EdgeInsets.all(4.0),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.pink.shade700,
+                                      borderRadius:
+                                          BorderRadius.circular(30.0)),
+                                  child: Text(
+                                    date.day.toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                          todayDayBuilder: (context, date, events) => Container(
+                              margin: const EdgeInsets.all(4.0),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: Colors.pink.shade200,
+                                  borderRadius: BorderRadius.circular(30.0)),
+                              child: Text(
+                                date.day.toString(),
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ),
+                        calendarController: _controller,
+                      )),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: _selectEvents.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            EventModel event = _selectEvents[index];
+                            return ListTile(
+                              title: Text(event.title),
+                              subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
+                                  .format(event.date)),
+                              onTap: () => {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ViewEventPage(event: event)))
+                              },
+                            );
+                          })
+                    ]);
+                  }
+                  return CircularProgressIndicator();
+                }),
+            // Expanded(
+            //   child: Align(
+            //       alignment: Alignment.bottomRight,
+            //       child: Padding(
+            //           padding: EdgeInsets.all(10),
+            //           child: FloatingActionButton(
+            //             backgroundColor: Colors.pink.shade600,
+            //             child: Icon(Icons.add),
+            //             onPressed: () {
+            //               Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                       builder: (context) => MakeApptPage(
+            //                             pickedDate: _controller.selectedDay,
+            //                           )));
+            //             },
+            //             // onPressed: _showAddDialog,
+            //             foregroundColor: Colors.white,
+            //           ))),
+            // )
+          ],
+        ),
+      )),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.pink.shade600,
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MakeApptPage(
+                        pickedDate: _controller.selectedDay,
+                      )));
+        },
+        // onPressed: _showAddDialog,
+        foregroundColor: Colors.white,
       ),
     );
   }
 }
+
+// _showNotifications(EventModel event){
+//   NotificationApi.showScheduledNotification(
+//                   title: event.title,
+//                   body: event.desc,
+//                   payload: event.id.toString(),
+//                   scheduledDate: widget.pickedDate.add(Duration(
+//                       hours: int.parse(setHr), minutes: int.parse(setHr))));
+// }
