@@ -23,13 +23,18 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
 
     return Container(
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
             appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Text('Blood Pressure'),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text('Blood Pressure',
+                  style: TextStyle(color: Colors.pink.shade900)),
               leading: IconButton(
+                key: Key('BloodPressureButton'),
                 icon: Icon(
                   Icons.chevron_left,
-                  color: Colors.white,
+                  color: Colors.pink.shade900,
                   size: 30,
                 ),
                 onPressed: () {
@@ -38,14 +43,31 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                 },
               ),
             ),
-            body: Text(
-              'Your Blood Pressure is: ' +
-                  blood_pressure.toString().substring(0, 5),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.cyan,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
-            )));
+            body: Container(
+                decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                        center: Alignment.centerRight,
+                        radius: 2,
+                        colors: [
+                      Colors.amber.shade50,
+                      Colors.pink.shade50,
+                      Colors.purple.shade100
+                    ])),
+                child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    padding: EdgeInsets.all(10),
+                    child: Column(children: [
+                      Padding(padding: EdgeInsets.only(top: 200)),
+                      Text(
+                        'Your Blood Pressure is: ' +
+                            blood_pressure.toString().substring(0, 5),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.pink.shade900,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ])))));
   }
 }

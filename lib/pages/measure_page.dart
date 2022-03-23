@@ -90,7 +90,7 @@ class _MeasurePageState extends State<MeasurePage> {
                                         'Chronic (long-lasting) health condition that affects how your body turns food into energy.',
                                         style: TextStyle(
                                           color: Colors.green.shade900,
-                                          fontSize: 10,
+                                          fontSize: 13,
                                         )),
                                   )),
                               GestureDetector(
@@ -105,14 +105,16 @@ class _MeasurePageState extends State<MeasurePage> {
                                     color: Colors.cyan.shade200,
                                     title: Text('Stroke',
                                         style: TextStyle(
-                                            color: Colors.green.shade900,
+                                            color: Color.fromARGB(
+                                                255, 33, 78, 146),
                                             fontSize: 25,
                                             fontWeight: FontWeight.bold)),
                                     subtitle: Text(
                                         'A disease that affects the arteries leading to and within the brain. The interrupted blood flow causes damage to your brain.',
                                         style: TextStyle(
-                                          color: Colors.green.shade900,
-                                          fontSize: 10,
+                                          color:
+                                              Color.fromARGB(255, 33, 78, 146),
+                                          fontSize: 13,
                                         )),
                                   )),
                               GestureDetector(
@@ -133,10 +135,10 @@ class _MeasurePageState extends State<MeasurePage> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     subtitle: Text(
-                                        'Body Fat. Learn more about your Body Fat percentage.',
+                                        "The percentage of a your body that is not composed of water, muscle, bone, and vital organs",
                                         style: TextStyle(
                                           color: Colors.pink.shade900,
-                                          fontSize: 10,
+                                          fontSize: 13,
                                         )),
                                   )),
                               GestureDetector(
@@ -160,7 +162,7 @@ class _MeasurePageState extends State<MeasurePage> {
                                       'The pressure of blood pushing against the walls of your arteries. Learn more about your Blood Pressure.',
                                       style: TextStyle(
                                         color: Colors.blue.shade900,
-                                        fontSize: 10,
+                                        fontSize: 13,
                                       )),
                                 ),
                               )

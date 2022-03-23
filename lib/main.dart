@@ -4,17 +4,18 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health_assistant/model/account_model.dart';
 import 'package:health_assistant/pages/login_page.dart';
 import 'package:health_assistant/utils/local_storage.dart';
+import 'package:health_assistant/utils/notifications.dart';
 import 'package:provider/provider.dart';
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', 'High Importance Notifications',
+    importance: Importance.high, playSound: true);
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 LocalStorage cache;
 
-void init() {}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
+void init() async {
   var initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   var initalizationSettingsIOS = IOSInitializationSettings(
@@ -36,7 +37,20 @@ void main() async {
     }
   });
 
+  NotificationApi.init(initScheduled: true);
+  void listenNotifications() => NotificationApi.onNotifications;
+
+  listenNotifications();
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+  NotificationApi.init(initScheduled: true);
+
+  init();
+
   runApp(MyApp());
 }
 
@@ -80,15 +94,24 @@ class _ProvidersSetupState extends State<ProvidersSetup> {
 
   @override
   void initState() {
+    super.initState();
+
+    NotificationApi.init(initScheduled: true);
+    listenNotifications();
     _initializeModels();
     _initializeListeners();
-    super.initState();
   }
+
+  void listenNotifications() => NotificationApi.onNotifications;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider.value(value: accountModel),
     ]);
+  }
+
+  void onClickedNotification(String payload) {
+    //what to do when notifications is clicked
   }
 }

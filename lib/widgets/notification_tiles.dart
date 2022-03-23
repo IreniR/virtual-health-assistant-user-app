@@ -11,11 +11,12 @@ class NotificationSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.transparent,
       elevation: 0,
       child: SwitchListTile(
         value: initialValue,
         title: title,
-        activeColor: Colors.red,
+        activeColor: Colors.pink.shade900,
         inactiveTrackColor: Colors.grey,
         onChanged: switchValue,
       ),

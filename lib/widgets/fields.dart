@@ -13,6 +13,7 @@ class InputTextField extends StatelessWidget {
   final Function(String) onSaved;
   final TextInputType keyBoardType;
   final controller;
+  final bool enabled;
 
   InputTextField(
       {Key key,
@@ -24,6 +25,7 @@ class InputTextField extends StatelessWidget {
       this.icon,
       this.textInputType,
       this.onSaved,
+      this.enabled,
       @required this.keyBoardType,
       this.validator})
       : super(key: key);

@@ -54,6 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     fontSize: 20),
               ),
               leading: IconButton(
+                key: Key('registerBackButton'),
                 icon: Icon(
                   Icons.chevron_left,
                   color: Colors.pink.shade900,
@@ -109,6 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
             width: MediaQuery.of(context).size.width * 0.8,
           ),
           InputTextField(
+            key: Key('registerUsernameField'),
             labelText: 'Full Name',
             hintText: 'Enter Full Name',
             obscureText: false,
@@ -121,6 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           InputTextField(
+            key: Key('registerEmailField'),
             labelText: 'Email',
             hintText: 'Enter Valid Email',
             obscureText: false,
@@ -133,6 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           InputTextField(
+            key: Key('registerPasswordField'),
             labelText: 'Password',
             hintText: 'Enter Valid Password',
             obscureText: true,
@@ -152,6 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Text(
                       'Password must: \n\nConsist at least 6 characters \nConsist of 1 uppercase letter \nConsist 1 digit \nConsist 1 special character'))),
           InputTextField(
+            key: Key('confirmPasswordField'),
             labelText: 'Confirm Password',
             hintText: 'Confirm Password',
             obscureText: true,
@@ -180,6 +185,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Container(
       alignment: FractionalOffset.bottomCenter,
       child: ElevatedButton(
+        key: Key('userDetailsBtn'),
         onPressed: () {
           final formState = _formkey.currentState;
           if (formState.validate()) {
@@ -195,6 +201,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Text(
           'Next',
           style: TextStyle(fontSize: 20, color: Colors.white),
+          key: Key('nextBtn'),
         ),
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 70),

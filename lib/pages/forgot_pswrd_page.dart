@@ -32,6 +32,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 style: TextStyle(color: Colors.pink.shade900),
               ),
               leading: IconButton(
+                key: Key('forgotPasswordBackBtn'),
                 icon: Icon(
                   Icons.chevron_left,
                   color: Colors.pink.shade900,
@@ -65,6 +66,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           style: TextStyle(color: Colors.pink.shade900),
                         )),
                     InputTextField(
+                      key: Key('ResetPassEmailValidator'),
                       hintText: 'Email',
                       obscureText: false,
                       validator: emailValidator,
@@ -86,6 +88,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget resetPasswordBtn() {
     return Container(
       child: ElevatedButton(
+        key: Key('resetPasswordBtn'),
         onPressed: () {
           resetPassword();
         },
@@ -111,6 +114,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         _resetDialog();
         print('Reset email has been sent');
       } catch (e) {
+        _invalidEmailDialog();
+
         print(e.toString());
       }
     }
@@ -121,10 +126,33 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            key: Key('successResetPassword'),
             title: Text('Reset Password'),
             content: Text('Reset Password link has been sent to $email'),
             actions: <Widget>[
               TextButton(
+                key: Key('confirmResetButton'),
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void _invalidEmailDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            key: Key('invalidEmailResetPassword'),
+            title: Text('Invalid Email'),
+            content: Text('User may have been deleted'),
+            actions: <Widget>[
+              TextButton(
+                key: Key('confirmResetButton'),
                 child: Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();

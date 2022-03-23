@@ -19,6 +19,7 @@ Widget forgotBtn(BuildContext context) {
   return Container(
     alignment: Alignment(1.0, 0.0),
     child: TextButton(
+      key: Key('forgotPasswordBtn'),
       onPressed: () {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
@@ -37,6 +38,7 @@ Widget forgotBtn(BuildContext context) {
 Widget registerBtn(BuildContext context) {
   return Container(
     child: ElevatedButton(
+      key: Key('registerBtn'),
       onPressed: () {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => RegisterPage()));
@@ -94,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                                   padding: EdgeInsets.only(top: 20),
                                   child: Image.asset('assets/logo.png')),
                               InputTextField(
+                                key: Key('loginUsernameField'),
                                 hintText: 'Email',
                                 validator: emailValidator,
                                 obscureText: false,
@@ -105,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               InputTextField(
+                                key: Key('loginPasswordField'),
                                 validator: passwordValidator,
                                 obscureText: true,
                                 keyBoardType: TextInputType.visiblePassword,
@@ -157,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget loginBtn(BuildContext context) {
     return Container(
       child: ElevatedButton(
+        key: Key('loginBtn'),
         onPressed: () async {
           loginUser();
         },
@@ -178,6 +183,7 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            key: Key('userNotFound'),
             title: Text('User Not Found'),
             content: Text('Please Sign Up'),
           );

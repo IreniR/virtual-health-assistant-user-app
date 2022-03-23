@@ -36,7 +36,7 @@ String numericValidator(String input) {
 }
 
 String dateOfBirthValidator(String input) {
-  if (input.isEmpty) return 'Password cannot be empty';
+  if (input.isEmpty) return 'Please enter valid birthday';
   if (!dateOfBirthFormat(input)) return "Please enter in a yyyy/mm/dd format";
   return null;
 }
