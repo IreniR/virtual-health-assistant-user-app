@@ -85,13 +85,18 @@ class _BodyFatFormPageState extends State<BodyFatFormPage> {
           return Future.value(false);
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
             appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Text('BodyFat Form'),
+              backgroundColor: Colors.pink.shade100,
+              elevation: 0,
+              title: Text('Body Fat Form',
+                  style: TextStyle(color: Colors.pink.shade900)),
               leading: IconButton(
+                key: Key('BodyFatButton'),
                 icon: Icon(
                   Icons.chevron_left,
-                  color: Colors.white,
+                  color: Colors.pink.shade900,
                   size: 30,
                 ),
                 onPressed: () {
@@ -100,139 +105,165 @@ class _BodyFatFormPageState extends State<BodyFatFormPage> {
                 },
               ),
             ),
-            body: Form(
-              key: _formkey,
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        InputTextField(
-                          labelText: 'Neck Circumference',
-                          hintText: 'cm',
-                          obscureText: false,
-                          keyBoardType: TextInputType.number,
-                          onSaved: (input) => neck = double.parse(input),
-                          validator: numericValidator,
-                          icon: Icon(
-                            Icons.monitor_weight,
-                            color: Colors.lightBlueAccent,
+            body: Container(
+                decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                        center: Alignment.centerRight,
+                        radius: 2,
+                        colors: [
+                      Colors.amber.shade50,
+                      Colors.pink.shade50,
+                      Colors.purple.shade100
+                    ])),
+                child: SingleChildScrollView(
+                    // width: double.infinity,
+                    // height: double.infinity,
+                    padding: EdgeInsets.only(top: 65),
+                    child: Column(children: [
+                      Form(
+                        key: _formkey,
+                        child: SingleChildScrollView(
+                          child: Center(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  InputTextField(
+                                    labelText: 'Neck Circumference',
+                                    hintText: 'cm',
+                                    obscureText: false,
+                                    keyBoardType: TextInputType.number,
+                                    onSaved: (input) =>
+                                        neck = double.parse(input),
+                                    validator: numericValidator,
+                                    icon: Icon(
+                                      Icons.monitor_weight,
+                                      color: Colors.pink.shade900,
+                                    ),
+                                  ),
+                                  InputTextField(
+                                      labelText: 'Chest Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          chest = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Abdomen Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          abdomen = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Hip Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          hip = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Thigh Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          thigh = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Knee Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          knee = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Ankle Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          ankle = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Bicep Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          bicep = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Forarm Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          forarm = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Wrist Circumference',
+                                      hintText: 'cm',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          wrist = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade900,
+                                      )),
+                                  getRiskBtn(),
+                                  SizedBox(height: 70),
+                                  Container(
+                                      child: Text(
+                                    riskMessage,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ]),
                           ),
                         ),
-                        InputTextField(
-                            labelText: 'Chest Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => chest = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Abdomen Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => abdomen = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Hip Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => hip = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Thigh Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => thigh = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Knee Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => knee = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Ankle Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => ankle = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Bicep Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => bicep = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Forarm Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => forarm = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Wrist Circumference',
-                            hintText: 'cm',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => wrist = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        getRiskBtn(),
-                        SizedBox(height: 70),
-                        Container(
-                            child: Text(
-                          riskMessage,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold),
-                        )),
-                      ]),
-                ),
-              ),
-            )));
+                      )
+                    ])))));
   }
 
   Widget getRiskBtn() {
@@ -267,9 +298,9 @@ class _BodyFatFormPageState extends State<BodyFatFormPage> {
           addUserBodyFat(email, double.parse(resp));
         },
         child: Text("Get Body Fat",
-            style: TextStyle(color: Colors.black, fontSize: 20)),
+            style: TextStyle(color: Colors.pink.shade900, fontSize: 20)),
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 80),
-            primary: Colors.cyan));
+            primary: Colors.pink.shade200));
   }
 }

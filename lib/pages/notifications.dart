@@ -95,7 +95,7 @@ class _NotificationPage extends State<NotificationPage> {
                       Padding(
                           padding: EdgeInsets.only(top: 10, left: 5, right: 5)),
                       NotificationSwitch(
-                        title: Text('Reminders',
+                        title: Text('Silence Reminders',
                             style: TextStyle(
                                 color: Colors.pink.shade900, fontSize: 20)),
                         initialValue: _isToggledAppointments,

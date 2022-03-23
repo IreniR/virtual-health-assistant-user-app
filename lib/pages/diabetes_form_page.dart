@@ -75,13 +75,18 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
           return Future.value(false);
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
             appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Text('Diabetes Form'),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text('Notification Settings',
+                  style: TextStyle(color: Colors.pink.shade900)),
               leading: IconButton(
+                key: Key('NotificationButton'),
                 icon: Icon(
                   Icons.chevron_left,
-                  color: Colors.white,
+                  color: Colors.pink.shade900,
                   size: 30,
                 ),
                 onPressed: () {
@@ -90,63 +95,82 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
                 },
               ),
             ),
-            body: Form(
-              key: _formkey,
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        InputTextField(
-                          labelText: 'Glucose',
-                          hintText: 'Glucose Level',
-                          obscureText: false,
-                          keyBoardType: TextInputType.number,
-                          onSaved: (input) => glucose = double.parse(input),
-                          validator: numericValidator,
-                          icon: Icon(
-                            Icons.monitor_weight,
-                            color: Colors.lightBlueAccent,
+            body: Container(
+                decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                        center: Alignment.centerRight,
+                        radius: 2,
+                        colors: [
+                      Colors.amber.shade50,
+                      Colors.pink.shade50,
+                      Colors.purple.shade100
+                    ])),
+                child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    padding: EdgeInsets.all(10),
+                    child: Column(children: [
+                      Padding(padding: EdgeInsets.only(top: 55)),
+                      Form(
+                        key: _formkey,
+                        child: SingleChildScrollView(
+                          child: Center(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  InputTextField(
+                                    labelText: 'Glucose',
+                                    hintText: 'Glucose Level',
+                                    obscureText: false,
+                                    keyBoardType: TextInputType.number,
+                                    onSaved: (input) =>
+                                        glucose = double.parse(input),
+                                    validator: numericValidator,
+                                    icon: Icon(
+                                      Icons.monitor_weight,
+                                      color: Colors.pink.shade300,
+                                    ),
+                                  ),
+                                  InputTextField(
+                                      labelText: 'Blood Pressure',
+                                      hintText: 'Blood Pressure Level',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          bloodPressure = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade300,
+                                      )),
+                                  InputTextField(
+                                      labelText: 'Insulin',
+                                      hintText: 'Insulin',
+                                      obscureText: false,
+                                      keyBoardType: TextInputType.number,
+                                      onSaved: (input) =>
+                                          insulin = double.parse(input),
+                                      validator: numericValidator,
+                                      icon: Icon(
+                                        Icons.height,
+                                        color: Colors.pink.shade300,
+                                      )),
+                                  getRiskBtn(),
+                                  SizedBox(height: 70),
+                                  Container(
+                                      child: Text(
+                                    riskMessage,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ]),
                           ),
                         ),
-                        InputTextField(
-                            labelText: 'Blood Pressure',
-                            hintText: 'Blood Pressure Level',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) =>
-                                bloodPressure = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        InputTextField(
-                            labelText: 'Insulin',
-                            hintText: 'Insulin',
-                            obscureText: false,
-                            keyBoardType: TextInputType.number,
-                            onSaved: (input) => insulin = double.parse(input),
-                            validator: numericValidator,
-                            icon: Icon(
-                              Icons.height,
-                              color: Colors.lightBlueAccent,
-                            )),
-                        getRiskBtn(),
-                        SizedBox(height: 70),
-                        Container(
-                            child: Text(
-                          riskMessage,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold),
-                        )),
-                      ]),
-                ),
-              ),
-            )));
+                      )
+                    ])))));
   }
 
   Widget getRiskBtn() {
@@ -172,9 +196,11 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
           });
         },
         child: Text("Get Diabetes Risk",
-            style: TextStyle(color: Colors.black, fontSize: 20)),
+            style:
+                TextStyle(color: Color.fromARGB(255, 83, 9, 49), fontSize: 20)),
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 80),
-            primary: Colors.cyan));
+          padding: EdgeInsets.symmetric(horizontal: 80),
+          primary: Colors.pink.shade200,
+        ));
   }
 }
