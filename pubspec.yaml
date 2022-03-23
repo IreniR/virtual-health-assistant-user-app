@@ -51,8 +51,7 @@ dependencies:
   rxdart: ^0.26.0
   timezone: ^0.8.0
   flutter_native_timezone: ^1.1.0
-
-dependency_overrides:
+  flutter_html: ^0.11.1
 
 dev_dependencies:
   flutter_test:

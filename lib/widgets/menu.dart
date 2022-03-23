@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:health_assistant/pages/chat_page.dart';
 import 'package:health_assistant/pages/measure_page.dart';
 import 'package:health_assistant/pages/health_page.dart';
 import 'package:health_assistant/pages/settings_page.dart';
@@ -18,8 +17,6 @@ class _NavigationBarState extends State<NavigationPage> {
   final _pageList = [
     HealthPage(),
     MeasurePage(),
-    // FitnessPage(),
-    ChatPage(),
     SettingsPage(),
   ];
 
@@ -43,14 +40,6 @@ class _NavigationBarState extends State<NavigationPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.developer_board),
             label: 'Measure',
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.fitness_center),
-          //   label: 'Fitness',
-          // ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

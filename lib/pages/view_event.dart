@@ -51,18 +51,19 @@ class _ViewEventPage extends State<ViewEventPage> {
                                   actions: [
                                     TextButton(
                                         onPressed: () =>
-                                            Navigator.pop(context, true),
-                                        child: Text("Delete")),
+                                            Navigator.pop(context, false),
+                                        child: Text("Cancel")),
                                     TextButton(
                                         onPressed: () =>
-                                            Navigator.pop(context, false),
-                                        child: Text("Cancel"))
+                                            Navigator.pop(context, true),
+                                        child: Text("Delete"))
                                   ],
                                 )) ??
                         false;
 
                     if (confirm) {
                       await eventDatabaseService.removeItem(widget.event.id);
+
                       Navigator.pop(context);
                     }
                   })

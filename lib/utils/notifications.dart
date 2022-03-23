@@ -21,8 +21,7 @@ class NotificationApi {
   }
 
   static Future init({bool initScheduled = false}) async {
-    final android = AndroidInitializationSettings(
-        '@mipmap/ic_launcher'); //'@mipmap/ic_launcher');
+    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
     final iOS = IOSInitializationSettings();
     final settings = InitializationSettings(android: android, iOS: iOS);
 
@@ -60,16 +59,18 @@ class NotificationApi {
         id,
         title,
         body,
-        tz.TZDateTime(
-          tz.local,
-          DateTime.now().year,
-          DateTime.now().month,
-          DateTime.now().day,
-          scheduledDate.hour,
-          scheduledDate.minute,
-        ),
+        tz.TZDateTime.from(scheduledDate, tz.local),
         await _notificationDetails(),
         payload: payload,
+        // tz.local,
+        // DateTime.now().year,
+        // DateTime.now().month,
+        // DateTime.now().day,
+        // scheduledDate.hour,
+        // scheduledDate.minute,
+        // ),
+        // await _notificationDetails(),
+        // payload: payload,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,

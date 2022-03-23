@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:health_assistant/main.dart';
 import 'package:health_assistant/model/event_model.dart';
 import 'package:health_assistant/pages/appts_page.dart';
 import 'package:health_assistant/utils/events/event_firestore.dart';
@@ -76,7 +77,7 @@ class _MakeApptPageState extends State<MakeApptPage> {
                     validator: FormBuilderValidators.compose(
                         [FormBuilderValidators.required(context)]),
                     name: "title",
-                    // initialValue: widget.event?.title,
+                    initialValue: widget.event?.title,
                     decoration: InputDecoration(
                         hintText: "Title",
                         border: InputBorder.none,
@@ -84,7 +85,7 @@ class _MakeApptPageState extends State<MakeApptPage> {
                   ),
                   FormBuilderTextField(
                     name: "desc",
-                    // initialValue: widget.event?.desc,
+                    initialValue: widget.event?.desc,
                     decoration: InputDecoration(
                         hintText: "Description",
                         border: InputBorder.none,
@@ -158,20 +159,63 @@ class _MakeApptPageState extends State<MakeApptPage> {
               print((data['timeOfDay']));
               DateTime dt = data["timeOfDay"];
 
+              DateTime date_selected = data['date'];
+              int day_selected = date_selected.day;
+              int year_selected = date_selected.year;
+              int month_selected = date_selected.month;
+
+              String val =
+                  "$year_selected-$month_selected-$day_selected 00:00:00";
+              DateTime tempDate =
+                  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(val);
+              print(tempDate);
+
+              print(DateTime.now());
+
               int setHr = dt.hour;
-
               int setMin = dt.minute;
-              print(setHr);
-              print(setMin);
+              print(setHr.toString() + " Hour ");
+              print(setMin.toString() + " Min ");
 
+              //get date value
+              print((data['date']));
+              print(DateTime.now());
               NotificationApi.showScheduledNotification(
-                  title: titleController.text,
-                  body: descController.text,
+                  title: data['title'],
+                  body: data['desc'],
                   payload: data["user_id"],
-                  scheduledDate: data["timeOfDay"]);
+                  scheduledDate:
+                      tempDate.add(Duration(hours: setHr, minutes: setMin)));
             } else {
               //remove before being updated
+              await flutterLocalNotificationsPlugin
+                  .cancel(widget.event.hashCode);
+
               await eventDatabaseService.updateData(widget.event.id, data);
+
+              DateTime dt = data["timeOfDay"];
+              DateTime date_selected = data['date'];
+              int day_selected = date_selected.day;
+              int year_selected = date_selected.year;
+              int month_selected = date_selected.month;
+
+              String val =
+                  "$year_selected-$month_selected-$day_selected 00:00:00";
+              DateTime tempDate =
+                  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(val);
+              print(tempDate);
+              print(DateTime.now());
+
+              int setHr = dt.hour;
+              int setMin = dt.minute;
+              print(setHr.toString() + " Hour ");
+              print(setMin.toString() + " Min ");
+              NotificationApi.showScheduledNotification(
+                  title: data['title'],
+                  body: data['desc'],
+                  payload: data["user_id"],
+                  scheduledDate:
+                      tempDate.add(Duration(hours: setHr, minutes: setMin)));
             }
 
             Navigator.pop(context,

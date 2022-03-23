@@ -110,210 +110,188 @@ class _HealthPageState extends State<HealthPage> {
         },
         child: Scaffold(
             body: SingleChildScrollView(
-          child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                    Colors.pink.shade300,
-                    Colors.deepOrange.shade200
-                  ])),
-              child: Column(children: [
-                //Greet User Prompt
-                Container(
-                  padding: EdgeInsets.only(top: 60, left: 25, right: 25),
-                  child: Column(
+                child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.pink.shade300, Colors.deepOrange.shade200])),
+          child: Column(children: [
+            //Greet User Prompt
+            Container(
+              padding: EdgeInsets.only(top: 60, left: 25, right: 25),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20, left: 15),
-                            child: CircleAvatar(
-                              key: Key('userAvatar'),
-                              backgroundColor: Colors.black,
-                              backgroundImage: NetworkImage(
-                                  'https://via.placeholder.com/150'),
-                              radius: 40,
-                            ),
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(12),
-                              alignment: Alignment.centerLeft,
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Hello, ",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        auth.currentUser.email + "!",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      )
-                                    ],
-                                  )))
-                        ],
+                      Padding(
+                        padding: EdgeInsets.only(top: 20, left: 15),
+                        child: CircleAvatar(
+                          key: Key('userAvatar'),
+                          backgroundColor: Colors.black,
+                          backgroundImage:
+                              NetworkImage('https://via.placeholder.com/150'),
+                          radius: 40,
+                        ),
                       ),
+                      Container(
+                          padding: EdgeInsets.all(12),
+                          alignment: Alignment.centerLeft,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Hello, ",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  Text(
+                                    auth.currentUser.email + "!",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )
+                                ],
+                              )))
                     ],
                   ),
-                ),
+                ],
+              ),
+            ),
 
-                Container(
-                  height: 450,
-                  child: GridView.count(crossAxisCount: 2, children: [
-                    FutureBuilder<QuerySnapshot>(
-                      future: dates.get(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return Text("Something went wrong");
-                        }
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          final allData = snapshot.data.docs
-                              .map((doc) => doc.data())
-                              .toList();
-                          allData.sort((a, b) {
-                            var adate = (a as Map)["datetime"];
-                            var bdate = (b as Map)["datetime"];
-                            return adate.compareTo(bdate);
-                          });
-                          print(allData);
-                          return HealthRiskCards(
-                            key: Key('bmiCard'),
-                            color: Colors.green.shade300,
-                            title: Text('BMI',
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold)),
-                            value: Text(
-                                (allData.last as Map)["bmi"].toStringAsFixed(2),
-                                // "16",
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
-                                    fontSize: 45,
-                                    fontWeight: FontWeight.bold)),
-                          );
-                        }
-                        return CircularProgressIndicator();
-                      },
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          mqttPublish("hr");
-                        },
-                        child: streamBuilder(
-                            heartRate,
-                            "heartRate",
-                            "Heart Rate",
-                            Colors.blue.shade200,
-                            Key('heartRate'))),
-                    GestureDetector(
-                        onTap: () {
-                          mqttPublish("ox");
-                        },
-                        child: streamBuilder(
-                            oxygenLevel,
-                            "o2sat",
-                            "Oxygen Level",
-                            Color.fromARGB(255, 255, 179, 128),
-                            Key('oxygenLvl'))),
-                    streamBuilder(
-                        bloodPressure,
-                        "bloodPressure",
-                        "Blood Pressure",
-                        Color.fromARGB(255, 200, 147, 216),
-                        Key('bloodPressure')),
-                    // streamBuilderBLE(heartRate, "00000002-710e-4a5b-8d75-3e5b444bc3cf", "Heart Rate", Colors.blue.shade200),
-                    // streamBuilderBLE(oxygenLevel, "00000003-710e-4a5b-8d75-3e5b444bc3cf", "Oxygen Level", Color.fromARGB(255, 255, 179, 128))
-                  ]),
+            Container(
+              height: 450,
+              child: GridView.count(crossAxisCount: 2, children: [
+                FutureBuilder<QuerySnapshot>(
+                  future: dates.get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("Something went wrong");
+                    }
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      final allData =
+                          snapshot.data.docs.map((doc) => doc.data()).toList();
+                      allData.sort((a, b) {
+                        var adate = (a as Map)["datetime"];
+                        var bdate = (b as Map)["datetime"];
+                        return adate.compareTo(bdate);
+                      });
+                      print(allData);
+                      return HealthRiskCards(
+                        key: Key('bmiCard'),
+                        color: Colors.green.shade300,
+                        title: Text('BMI',
+                            style: TextStyle(
+                                color: Colors.black.withOpacity(0.5),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                        value: Text(
+                            (allData.last as Map)["bmi"].toStringAsFixed(2),
+                            // "16",
+                            style: TextStyle(
+                                color: Colors.black.withOpacity(0.5),
+                                fontSize: 45,
+                                fontWeight: FontWeight.bold)),
+                      );
+                    }
+                    return CircularProgressIndicator();
+                  },
                 ),
-                SizedBox(
-                    height: 300,
-                    width: 400,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChartPage()));
-                      },
-                      child: HealthSubCards(
-                        color: Colors.pink.shade50,
-                        title: Text(
-                          'Progress',
-                          style: TextStyle(
-                              color: Colors.black.withOpacity(0.5),
-                              fontSize: 25),
-                          textAlign: TextAlign.center,
-                        ),
-                        icon: Icon(
-                          Icons.trending_up,
-                          color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
-                          size: 120,
-                        ),
-                      ),
-                    )),
-                SizedBox(
-                  height: 250,
-                  child: GridView.count(crossAxisCount: 2, children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PrescriptionPage()));
-                      },
-                      child: HealthSubCards(
-                          color: Colors.purple.shade50,
-                          // title: Text('Prescriptions',
-                          //     style: TextStyle(
-                          //         color: Colors.purple.shade900,
-                          //         fontSize: 20,
-                          //         fontWeight: FontWeight.bold)),
-                          icon: Icon(
-                            Icons.medical_services_outlined,
-                            color: Colors.deepPurple.shade900,
-                            size: 120,
-                          )),
+                GestureDetector(
+                    onTap: () {
+                      mqttPublish("hr");
+                    },
+                    child: streamBuilder(heartRate, "heartRate", "Heart Rate",
+                        Colors.blue.shade200, Key('heartRate'))),
+                GestureDetector(
+                    onTap: () {
+                      mqttPublish("ox");
+                    },
+                    child: streamBuilder(oxygenLevel, "o2sat", "Oxygen Level",
+                        Color.fromARGB(255, 255, 179, 128), Key('oxygenLvl'))),
+                streamBuilder(bloodPressure, "bloodPressure", "Blood Pressure",
+                    Color.fromARGB(255, 200, 147, 216), Key('bloodPressure')),
+                // streamBuilderBLE(heartRate, "00000002-710e-4a5b-8d75-3e5b444bc3cf", "Heart Rate", Colors.blue.shade200),
+                // streamBuilderBLE(oxygenLevel, "00000003-710e-4a5b-8d75-3e5b444bc3cf", "Oxygen Level", Color.fromARGB(255, 255, 179, 128))
+              ]),
+            ),
+            SizedBox(
+                height: 300,
+                width: 400,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ChartPage()));
+                  },
+                  child: HealthSubCards(
+                    color: Colors.pink.shade50,
+                    title: Text(
+                      'Progress',
+                      style: TextStyle(
+                          color: Colors.black.withOpacity(0.5), fontSize: 25),
+                      textAlign: TextAlign.center,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AppointmentsPage()));
-                      },
-                      child: HealthSubCards(
-                          color: Colors.lime.shade50,
-                          // title: Text(
-                          //   'Reminders',
-                          //   style: TextStyle(
-                          //       color: Colors.lime.shade900,
-                          //       fontSize: 20,
-                          //       fontWeight: FontWeight.bold),
-                          // ),
-                          icon: Icon(
-                            Icons.calendar_today,
-                            color: Colors.amber.shade900,
-                            size: 120,
-                          )),
-                    )
-                  ]),
-                )
-              ])),
-        )));
+                    icon: Icon(
+                      Icons.trending_up,
+                      color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                      size: 120,
+                    ),
+                  ),
+                )),
+            // SizedBox(
+            //   height: 250,
+            //   child: GridView.count(crossAxisCount: 2, children: [
+            //     GestureDetector(
+            //       onTap: () {
+            //         Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => PrescriptionPage()));
+            //       },
+            // child: HealthSubCards(
+            //     color: Colors.purple.shade50,
+            //     // title: Text('Prescriptions',
+            //     //     style: TextStyle(
+            //     //         color: Colors.purple.shade900,
+            //     //         fontSize: 20,
+            //     //         fontWeight: FontWeight.bold)),
+            //     icon: Icon(
+            //       Icons.medical_services_outlined,
+            //       color: Colors.deepPurple.shade900,
+            //       size: 120,
+            //     )),
+            // ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AppointmentsPage()));
+              },
+              child: HealthSubCards(
+                  color: Colors.orange.shade50,
+                  // title: Text(
+                  //   'Reminders',
+                  //   style: TextStyle(
+                  //       color: Colors.lime.shade900,
+                  //       fontSize: 20,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
+                  icon: Icon(
+                    Icons.edit_calendar_sharp,
+                    color: Colors.amber.shade900,
+                    size: 80,
+                  )),
+            )
+          ]),
+        ))));
   }
 
   getCharacteristic(charUuid) async {

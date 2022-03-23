@@ -36,12 +36,19 @@ void init() async {
       debugPrint('notification payload: ' + payload);
     }
   });
+
+  NotificationApi.init(initScheduled: true);
+  void listenNotifications() => NotificationApi.onNotifications;
+
+  listenNotifications();
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+  NotificationApi.init(initScheduled: true);
+
   init();
 
   runApp(MyApp());
@@ -87,12 +94,12 @@ class _ProvidersSetupState extends State<ProvidersSetup> {
 
   @override
   void initState() {
-    _initializeModels();
-    _initializeListeners();
     super.initState();
 
     NotificationApi.init(initScheduled: true);
     listenNotifications();
+    _initializeModels();
+    _initializeListeners();
   }
 
   void listenNotifications() => NotificationApi.onNotifications;

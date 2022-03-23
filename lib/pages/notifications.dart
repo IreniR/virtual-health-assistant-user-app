@@ -1,4 +1,7 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:health_assistant/model/event_model.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/widgets/notification_tiles.dart';
 
@@ -15,9 +18,15 @@ class _NotificationPage extends State<NotificationPage> {
   bool _isToggledMedication = false;
   bool _isToggledExercise = false;
 
+  EventModel eventModel;
+
   void toggleAppt(bool value) {
-    setState(() {
+    setState(() async {
       _isToggledAppointments = value;
+
+      if (value == true) {
+        await FlutterLocalNotificationsPlugin().cancelAll();
+      }
     });
   }
 
@@ -46,47 +55,54 @@ class _NotificationPage extends State<NotificationPage> {
           return Future.value(false);
         },
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text('Notifications'),
-            leading: IconButton(
-              icon: Icon(Icons.chevron_left_outlined,
-                  size: 20, color: Colors.white),
-              onPressed: () {
-                Navigator.pop(context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
-              },
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text('Notification Settings',
+                  style: TextStyle(color: Colors.pink.shade900)),
+              leading: IconButton(
+                key: Key('NotificationButton'),
+                icon: Icon(
+                  Icons.chevron_left,
+                  color: Colors.pink.shade900,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.pop(context,
+                      MaterialPageRoute(builder: (context) => SettingsPage()));
+                },
+              ),
             ),
-          ),
-          backgroundColor: Colors.white,
-          body: Column(
-            children: [
-              NotificationSwitch(
-                title: Text('Appointment Reminders',
-                    style: TextStyle(color: Colors.black, fontSize: 20)),
-                initialValue: _isToggledAppointments,
-                switchValue: toggleAppt,
-              ),
-              NotificationSwitch(
-                title: Text('Medication Reminders',
-                    style: TextStyle(color: Colors.black, fontSize: 20)),
-                initialValue: _isToggledMedication,
-                switchValue: toggleMed,
-              ),
-              NotificationSwitch(
-                title: Text('Chat Messages',
-                    style: TextStyle(color: Colors.black, fontSize: 20)),
-                initialValue: _isToggledChat,
-                switchValue: toggleChat,
-              ),
-              NotificationSwitch(
-                title: Text('Exercise Reminders',
-                    style: TextStyle(color: Colors.black, fontSize: 20)),
-                initialValue: _isToggledExercise,
-                switchValue: toggleExercise,
-              ),
-            ],
-          ),
-        ));
+            body: Container(
+                decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                        center: Alignment.centerRight,
+                        radius: 2,
+                        colors: [
+                      Colors.amber.shade50,
+                      Colors.pink.shade50,
+                      Colors.purple.shade100
+                    ])),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(top: 70)),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10, left: 5, right: 5)),
+                      NotificationSwitch(
+                        title: Text('Reminders',
+                            style: TextStyle(
+                                color: Colors.pink.shade900, fontSize: 20)),
+                        initialValue: _isToggledAppointments,
+                        switchValue: toggleAppt,
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }

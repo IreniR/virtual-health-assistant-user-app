@@ -6,6 +6,7 @@ import 'package:health_assistant/pages/about_page.dart';
 import 'package:health_assistant/pages/login_page.dart';
 import 'package:health_assistant/pages/notifications.dart';
 import 'package:health_assistant/forms/update_details_form.dart';
+import 'package:health_assistant/pages/privacy_policy.dart';
 
 final userRef = FirebaseFirestore.instance.collection('Users');
 final String docId = userRef.id; //Collection name gets printed
@@ -121,21 +122,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       }),
                   SizedBox(height: 5),
                   SettingsCards(
-                      title: Text('Progress',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.pink.shade900,
-                              fontWeight: FontWeight.bold)),
-                      icon: Icon(Icons.chevron_right_outlined,
-                          color: Colors.pink.shade900),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NotificationPage()));
-                      }),
-                  SizedBox(height: 5),
-                  SettingsCards(
                       title: Text('About',
                           style: TextStyle(
                               fontSize: 20,
@@ -162,7 +148,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AboutPage()));
+                                builder: (context) => PolicyPage()));
                       }),
                   SizedBox(height: 25),
                   Padding(
@@ -171,8 +157,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         onPressed: _showDialog,
                         style: ElevatedButton.styleFrom(
                             shape: StadiumBorder(),
-                            primary: Colors.transparent,
-                            shadowColor: Colors.transparent),
+                            elevation: 0,
+                            primary: Colors.transparent),
                         child: Ink(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -188,7 +174,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           child: Container(
                             padding: EdgeInsets.all(15),
                             constraints: const BoxConstraints(
-                                minWidth: 30, minHeight: 40),
+                                minWidth: 0, minHeight: 40),
                             alignment: Alignment.center,
                             child: const Text(
                               'Log Out',

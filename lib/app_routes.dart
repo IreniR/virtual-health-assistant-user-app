@@ -10,6 +10,7 @@ import 'package:health_assistant/pages/launch_screen.dart';
 import 'package:health_assistant/pages/login_page.dart';
 import 'package:health_assistant/pages/notifications.dart';
 import 'package:health_assistant/pages/prescriptions_page.dart';
+import 'package:health_assistant/pages/privacy_policy.dart';
 import 'package:health_assistant/pages/register_page.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/pages/stats_form_page.dart';
@@ -42,5 +43,6 @@ class AppRoutes {
     DiabetesFormPage.id: (_) => DiabetesFormPage(),
     BMIPage.id: (_) => BMIPage(),
     ViewEventPage.id: (_) => ViewEventPage(),
+    PolicyPage.id: (_) => PolicyPage(),
   };
 }
