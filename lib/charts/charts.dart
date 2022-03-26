@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 String email = FirebaseAuth.instance.currentUser.email.toString();
@@ -36,7 +37,7 @@ Widget bmi(BuildContext context) {
                     var bdate = (b as Map)["datetime"];
                     return adate.compareTo(bdate);
                   });
-                  return makePlot(allData, "bmi");
+                  return makePlotTable(allData, "bmi");
                 }
                 return CircularProgressIndicator();
               },
@@ -79,7 +80,7 @@ Widget bodyfat(BuildContext context) {
                     var bdate = (b as Map)["datetime"];
                     return adate.compareTo(bdate);
                   });
-                  return makePlot(allData, "bodyfat");
+                  return makePlotTable(allData, "bodyfat");
                 }
                 return CircularProgressIndicator();
               },
@@ -91,33 +92,78 @@ Widget bodyfat(BuildContext context) {
   );
 }
 
-Widget makePlot(List allData, String metric) {
+Widget makePlotTable(List allData, String metric) {
   List<ChartData> chartData = <ChartData>[];
+  List<DataRow> rows = [];
+
   for (var i = 0; i < allData.length; i++) {
     var map = allData[i] as Map;
-    var value;
+    DateTime dt = (map['datetime'] as Timestamp).toDate();
+
     if (metric == "bmi") {
       chartData
           .add(new ChartData(map["datetime"].toDate(), map["bmi"].toDouble()));
+
+      rows.add(DataRow(cells: [
+        DataCell(
+          Text(DateFormat('MM/dd/yyyy, hh:mm a').format(dt),
+              style: TextStyle(fontSize: 18)),
+        ),
+        DataCell(
+          Text(map["bmi"].toStringAsFixed(2), style: TextStyle(fontSize: 18)),
+        ),
+      ]));
     } else {
       chartData.add(
           new ChartData(map["datetime"].toDate(), map["bodyfat"].toDouble()));
+
+      rows.add(DataRow(cells: [
+        DataCell(
+          Text(DateFormat('MM/dd/yyyy, hh:mm a').format(dt),
+              style: TextStyle(fontSize: 18)),
+        ),
+        DataCell(
+          Text(map["bodyfat"].toStringAsFixed(2),
+              style: TextStyle(fontSize: 18)),
+        ),
+      ]));
     }
   }
 
   return Container(
       child: Center(
-          child: Container(
-              child: SfCartesianChart(
-                  primaryXAxis: DateTimeAxis(
-                      //Specified date time interval type in hours
-                      intervalType: DateTimeIntervalType.days),
-                  series: <ChartSeries<ChartData, DateTime>>[
-        LineSeries<ChartData, DateTime>(
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y)
-      ]))));
+          child: Column(
+    children: [
+      Container(
+        child: SfCartesianChart(
+            primaryXAxis: DateTimeAxis(
+                //Specified date time interval type in hours
+                intervalType: DateTimeIntervalType.days),
+            series: <ChartSeries<ChartData, DateTime>>[
+              LineSeries<ChartData, DateTime>(
+                  dataSource: chartData,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y)
+            ]),
+      ),
+      Container(
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: DataTable(
+                columns: [
+                  DataColumn(
+                      label: Text('Date',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Measurement',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                ],
+                rows: rows,
+              )))
+    ],
+  )));
 }
 
 class ChartData {

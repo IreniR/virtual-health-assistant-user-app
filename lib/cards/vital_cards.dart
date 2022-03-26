@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class HealthSubCards extends StatelessWidget {
@@ -93,6 +95,63 @@ class HealthRiskCards extends StatelessWidget {
                   title,
                   value,
                 ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BloodPressureCard extends StatefulWidget {
+  @override
+  _BloodPressureCardState createState() => _BloodPressureCardState();
+}
+
+class _BloodPressureCardState extends State<BloodPressureCard> {
+  String bloodPressure = "---";
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 200,
+      height: 200,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            Random random = new Random();
+            double generatedValue = random.nextDouble() * (100 - 45) + 45;
+            bloodPressure = generatedValue.toString().substring(0, 5) + " mmgh";
+          });
+        },
+        child: Padding(
+          padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+          child: Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+            color: Color.fromARGB(255, 200, 147, 216),
+            child: Container(
+              child: Padding(
+                padding: EdgeInsets.all(25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text('Blood Pressure',
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                    Text(bloodPressure,
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
+                  ],
+                ),
               ),
             ),
           ),

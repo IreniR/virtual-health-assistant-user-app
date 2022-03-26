@@ -141,31 +141,6 @@ class _MeasurePageState extends State<MeasurePage> {
                                           fontSize: 13,
                                         )),
                                   )),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              BloodPressurePage()));
-                                },
-                                child: HealthSubCards(
-                                  color: Colors.blue.shade200,
-                                  title: Text(
-                                    'Blood Pressure',
-                                    style: TextStyle(
-                                        color: Colors.blue.shade900,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(
-                                      'The pressure of blood pushing against the walls of your arteries. Learn more about your Blood Pressure.',
-                                      style: TextStyle(
-                                        color: Colors.blue.shade900,
-                                        fontSize: 13,
-                                      )),
-                                ),
-                              )
                             ],
                           ),
                         ))

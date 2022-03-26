@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -216,10 +217,20 @@ class _HealthPageState extends State<HealthPage> {
                     },
                     child: streamBuilder(oxygenLevel, "o2sat", "Oxygen Level",
                         Color.fromARGB(255, 255, 179, 128), Key('oxygenLvl'))),
-                streamBuilder(bloodPressure, "bloodPressure", "Blood Pressure",
-                    Color.fromARGB(255, 200, 147, 216), Key('bloodPressure')),
+                // GestureDetector(
+                // onTap: () {
+                //   Random random = new Random();
+                //   double generatedValue =
+                //       random.nextDouble() * (100 - 45) + 45;
+
+                //   setState(() {
+                //     bloodPressure = generatedValue.toString().substring(0, 5);
+                //   });
+                // },
+                BloodPressureCard(),
                 // streamBuilderBLE(heartRate, "00000002-710e-4a5b-8d75-3e5b444bc3cf", "Heart Rate", Colors.blue.shade200),
                 // streamBuilderBLE(oxygenLevel, "00000003-710e-4a5b-8d75-3e5b444bc3cf", "Oxygen Level", Color.fromARGB(255, 255, 179, 128))
+                // )
               ]),
             ),
             SizedBox(
@@ -245,29 +256,6 @@ class _HealthPageState extends State<HealthPage> {
                     ),
                   ),
                 )),
-            // SizedBox(
-            //   height: 250,
-            //   child: GridView.count(crossAxisCount: 2, children: [
-            //     GestureDetector(
-            //       onTap: () {
-            //         Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //                 builder: (context) => PrescriptionPage()));
-            //       },
-            // child: HealthSubCards(
-            //     color: Colors.purple.shade50,
-            //     // title: Text('Prescriptions',
-            //     //     style: TextStyle(
-            //     //         color: Colors.purple.shade900,
-            //     //         fontSize: 20,
-            //     //         fontWeight: FontWeight.bold)),
-            //     icon: Icon(
-            //       Icons.medical_services_outlined,
-            //       color: Colors.deepPurple.shade900,
-            //       size: 120,
-            //     )),
-            // ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
