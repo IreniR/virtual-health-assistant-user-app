@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:health_assistant/cards/gender_cards.dart';
+import 'package:health_assistant/cards/radio_button_cards.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/utils/Gender.dart';
 import 'package:health_assistant/utils/validator.dart';
@@ -23,7 +23,7 @@ class UpdateDetailsForm extends StatefulWidget {
 class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
-  List<Gender> genders = new List<Gender>();
+  List<RadioButton> genders = new List<RadioButton>();
 
   int age;
   double height;
@@ -33,11 +33,12 @@ class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
   DateTime currentDate = DateTime.now();
 
   _UpdateDetailsFormState() {
-    genders.add(new Gender("Male", Icons.male, false, Key('maleGenderCard')));
     genders.add(
-        new Gender("Female", Icons.female, false, Key('femaleGenderCard')));
-    genders.add(
-        new Gender("Other", Icons.transgender, false, Key('otherGenderCard')));
+        new RadioButton("Male", Icons.male, false, Key('maleGenderCard'), 0));
+    genders.add(new RadioButton(
+        "Female", Icons.female, false, Key('femaleGenderCard'), 0));
+    genders.add(new RadioButton(
+        "Other", Icons.transgender, false, Key('otherGenderCard'), 0));
   }
 
   @override
@@ -149,7 +150,7 @@ class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
                     print(gender);
                   });
                 },
-                child: gender_cards(genders[index]),
+                child: radio_button_cards(genders[index]),
               );
             }),
       ),

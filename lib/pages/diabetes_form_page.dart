@@ -80,7 +80,7 @@ class _DiabetesFormPageState extends State<DiabetesFormPage> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              title: Text('Notification Settings',
+              title: Text('Diabetes Prediction Form',
                   style: TextStyle(color: Colors.pink.shade900)),
               leading: IconButton(
                 key: Key('NotificationButton'),

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
-class Gender {
+class RadioButton {
   String name;
   IconData icon;
   bool isSelected;
   Key key;
+  int val;
 
-  Gender(this.name, this.icon, this.isSelected, this.key);
+  RadioButton(this.name, this.icon, this.isSelected, this.key, this.val);
 }

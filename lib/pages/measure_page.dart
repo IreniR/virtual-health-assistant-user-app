@@ -3,6 +3,7 @@ import 'package:health_assistant/cards/vital_cards.dart';
 import 'package:health_assistant/pages/body_fat_form_page.dart';
 import 'package:health_assistant/pages/diabetes_form_page.dart';
 import 'package:health_assistant/pages/health_page.dart';
+import 'package:health_assistant/pages/stroke_form_page.dart';
 
 import 'blood_pressure_page.dart';
 
@@ -99,7 +100,7 @@ class _MeasurePageState extends State<MeasurePage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                HealthPage()));
+                                                StrokeFormPage()));
                                   },
                                   child: HealthSubCards(
                                     color: Colors.cyan.shade200,

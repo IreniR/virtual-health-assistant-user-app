@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:health_assistant/utils/Gender.dart';
 
-class gender_cards extends StatelessWidget {
-  Gender _gender;
+class radio_button_cards extends StatelessWidget {
+  RadioButton _radio_button;
 
-  gender_cards(this._gender);
+  radio_button_cards(this._radio_button);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _gender.isSelected ? Colors.cyan : Colors.white,
+      color: _radio_button.isSelected ? Colors.cyan : Colors.white,
       child: Container(
         height: 80,
         width: 80,
@@ -20,15 +20,16 @@ class gender_cards extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(
-              _gender.icon,
-              color: _gender.isSelected ? Colors.white : Colors.black,
+              _radio_button.icon,
+              color: _radio_button.isSelected ? Colors.white : Colors.black,
               size: 40,
             ),
             SizedBox(height: 10),
             Text(
-              _gender.name,
+              _radio_button.name,
               style: TextStyle(
-                  color: _gender.isSelected ? Colors.white : Colors.black),
+                  color:
+                      _radio_button.isSelected ? Colors.white : Colors.black),
             )
           ],
         ),
