@@ -129,7 +129,7 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
             appBar: AppBar(
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.pink.shade100,
               elevation: 0,
               title: Text('Stroke Prediction Form',
                   style: TextStyle(color: Colors.pink.shade900)),
@@ -182,13 +182,19 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
                                     ),
                                   ),
                                   Container(
-                                      height: 100,
+                                      height: 120,
                                       child: Column(
                                         children: [
-                                          Text(
-                                            'Do you have High Blood Pressure?',
-                                            style: TextStyle(fontSize: 25),
-                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: Text(
+                                                'Do you have High Blood Pressure?',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
                                           Expanded(
                                             child: new ListView.builder(
                                                 scrollDirection:
@@ -219,17 +225,23 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
                                                             index]),
                                                   );
                                                 }),
-                                          )
+                                          ),
                                         ],
                                       )),
                                   Container(
-                                      height: 100,
+                                      height: 120,
                                       child: Column(
                                         children: [
-                                          Text(
-                                            'Do you have Heart Disease?',
-                                            style: TextStyle(fontSize: 25),
-                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: Text(
+                                                'Do you have Heart Disease?',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
                                           Expanded(
                                             child: new ListView.builder(
                                                 scrollDirection:
@@ -264,13 +276,19 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
                                         ],
                                       )),
                                   Container(
-                                      height: 100,
+                                      height: 120,
                                       child: Column(
                                         children: [
-                                          Text(
-                                            'Have/Are you ever been Married?',
-                                            style: TextStyle(fontSize: 25),
-                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: Text(
+                                                'Have/Are you ever been Married?',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
                                           Expanded(
                                             child: new ListView.builder(
                                                 scrollDirection:
@@ -306,11 +324,20 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
                                       height: 125,
                                       child: Column(
                                         children: [
-                                          Text(
-                                            'Work Type',
-                                            style: TextStyle(fontSize: 25),
-                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: Text(
+                                                'Work Type',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
                                           Expanded(
+                                              child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 5, right: 5),
                                             child: new ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
@@ -339,17 +366,23 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
                                                         workTypeOptions[index]),
                                                   );
                                                 }),
-                                          )
+                                          ))
                                         ],
                                       )),
                                   Container(
-                                      height: 100,
+                                      height: 120,
                                       child: Column(
                                         children: [
-                                          Text(
-                                            'Residence Type',
-                                            style: TextStyle(fontSize: 25),
-                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: Text(
+                                                'Residence Type',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
                                           Expanded(
                                             child: new ListView.builder(
                                                 scrollDirection:
@@ -383,8 +416,9 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
                                           )
                                         ],
                                       )),
+                                  SizedBox(height: 30),
                                   getRiskBtn(),
-                                  SizedBox(height: 70),
+                                  // SizedBox(height: 70),
                                   Container(
                                       child: Text(
                                     riskMessage,
