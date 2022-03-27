@@ -16,10 +16,9 @@ class radio_button_cards extends StatelessWidget {
         height: 80,
         width: 80,
         alignment: Alignment.center,
-        // margin: new EdgeInsets.all(5.0),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(
               _radio_button.icon,
@@ -28,7 +27,6 @@ class radio_button_cards extends StatelessWidget {
                   : Colors.black,
               size: 25,
             ),
-            // SizedBox(height: 10),
             Align(
                 alignment: Alignment.center,
                 child: Text(

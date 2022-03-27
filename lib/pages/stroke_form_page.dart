@@ -157,8 +157,6 @@ class _StrokeFormPageState extends State<StrokeFormPage> {
                       Colors.purple.shade100
                     ])),
                 child: SingleChildScrollView(
-                    // width: double.infinity,
-                    // height: double.infinity,
                     padding: EdgeInsets.only(top: 65),
                     child: Column(children: [
                       Form(

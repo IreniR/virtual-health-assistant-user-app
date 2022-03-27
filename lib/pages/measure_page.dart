@@ -46,7 +46,7 @@ class _MeasurePageState extends State<MeasurePage> {
                                   color: Colors.green.shade50),
                             ))),
                     Container(
-                        height: MediaQuery.of(context).size.height + 300,
+                        height: MediaQuery.of(context).size.height - 50,
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.pink.shade50,

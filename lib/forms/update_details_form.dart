@@ -135,7 +135,7 @@ class _UpdateDetailsFormState extends State<UpdateDetailsForm> {
         ),
       ),
       Container(
-        height: 100,
+        height: 80,
         child: new ListView.builder(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,

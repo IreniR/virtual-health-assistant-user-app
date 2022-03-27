@@ -234,7 +234,7 @@ class _HealthPageState extends State<HealthPage> {
               ]),
             ),
             SizedBox(
-                height: 300,
+                height: 170,
                 width: 400,
                 child: GestureDetector(
                   onTap: () {
@@ -243,16 +243,16 @@ class _HealthPageState extends State<HealthPage> {
                   },
                   child: HealthSubCards(
                     color: Colors.pink.shade50,
-                    title: Text(
-                      'Progress',
-                      style: TextStyle(
-                          color: Colors.black.withOpacity(0.5), fontSize: 25),
-                      textAlign: TextAlign.center,
-                    ),
+                    // title: Text(
+                    //   'Progress',
+                    //   style: TextStyle(
+                    //       color: Colors.black.withOpacity(0.5), fontSize: 25),
+                    //   textAlign: TextAlign.center,
+                    // ),
                     icon: Icon(
                       Icons.trending_up,
-                      color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
-                      size: 120,
+                      color: Color.fromARGB(255, 75, 8, 88).withOpacity(0.6),
+                      size: 80,
                     ),
                   ),
                 )),

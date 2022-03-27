@@ -147,6 +147,7 @@ Widget makePlotTable(List allData, String metric) {
             ]),
       ),
       Container(
+          height: 200,
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: DataTable(
