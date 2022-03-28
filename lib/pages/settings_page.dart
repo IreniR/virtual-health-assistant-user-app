@@ -22,7 +22,25 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     getUserInfo();
+    getProfilePic();
     super.initState();
+  }
+
+  String _urlProfile;
+
+  Future<void> getProfilePic() async {
+    var docSnapshot = await FirebaseFirestore.instance
+        .collection('images')
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .get();
+
+    Map<String, dynamic> data = docSnapshot.data();
+
+    String photoURL = data['url'];
+
+    setState(() {
+      _urlProfile = photoURL;
+    });
   }
 
   getUserInfo() {
@@ -42,6 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(getProfilePic());
     return WillPopScope(
         onWillPop: () {
           return Future.value(false);
@@ -69,14 +88,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 40),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.black,
-                            backgroundImage:
-                                NetworkImage('https://via.placeholder.com/150'),
-                            radius: 70,
-                          ),
-                        ),
+                            padding: EdgeInsets.only(top: 40),
+                            child: CircleAvatar(
+                              radius: 70,
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: NetworkImage('$_urlProfile'),
+                            )),
                         Container(
                           padding: EdgeInsets.all(12),
                           child: Text(

@@ -23,7 +23,7 @@ String emailValidator(String input) {
 String passwordValidator(String input) {
   if (input.isEmpty) return 'Password Cannot Be Empty';
   if (!passwordFormat(input))
-    return 'Password must be at least 6 characters and consist of 1 uppercase letter, \n1 digit, and 1 special character';
+    return 'Password must be at least 6 characters and consist of: \n  1 uppercase letter, 1 digit, and 1 special character';
   return null;
 }
 

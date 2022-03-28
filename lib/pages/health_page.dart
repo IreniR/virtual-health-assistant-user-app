@@ -1,14 +1,12 @@
-import 'dart:io';
 import 'dart:async';
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:health_assistant/cards/vital_cards.dart';
 import 'package:health_assistant/pages/appts_page.dart';
 import 'package:health_assistant/pages/chart_page.dart';
-import 'package:health_assistant/pages/prescriptions_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:health_assistant/pages/settings_page.dart';
 import 'package:health_assistant/charts/bmi_page.dart';
@@ -24,6 +22,12 @@ class HealthPage extends StatefulWidget {
 }
 
 class _HealthPageState extends State<HealthPage> {
+  @override
+  void initState() {
+    getProfilePic();
+    super.initState();
+  }
+
   final realtimeDatabase = FirebaseDatabase.instance.reference();
   String email = FirebaseAuth.instance.currentUser.email.toString();
   DateTime now = new DateTime.now();
@@ -31,6 +35,23 @@ class _HealthPageState extends State<HealthPage> {
   String heartRate = "---";
   String oxygenLevel = "---";
   String bloodPressure = "---";
+
+  String _urlProfile;
+
+  Future<void> getProfilePic() async {
+    var docSnapshot = await FirebaseFirestore.instance
+        .collection('images')
+        .doc(FirebaseAuth.instance.currentUser.email)
+        .get();
+
+    Map<String, dynamic> data = docSnapshot.data();
+
+    String photoURL = data['url'];
+
+    setState(() {
+      _urlProfile = photoURL;
+    });
+  }
 
   // BLE config
   FlutterBlue flutterBlue = FlutterBlue.instance;
@@ -126,12 +147,11 @@ class _HealthPageState extends State<HealthPage> {
                   Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 20, left: 15),
+                        padding: EdgeInsets.only(left: 15),
                         child: CircleAvatar(
                           key: Key('userAvatar'),
-                          backgroundColor: Colors.black,
-                          backgroundImage:
-                              NetworkImage('https://via.placeholder.com/150'),
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: NetworkImage('$_urlProfile'),
                           radius: 40,
                         ),
                       ),
