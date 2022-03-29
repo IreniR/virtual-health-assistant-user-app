@@ -92,7 +92,8 @@ class _SettingsPageState extends State<SettingsPage> {
                             child: CircleAvatar(
                               radius: 70,
                               backgroundColor: Colors.transparent,
-                              backgroundImage: NetworkImage('$_urlProfile'),
+                              backgroundImage:
+                                  NetworkImage('$_urlProfile') ?? Colors.black,
                             )),
                         Container(
                           padding: EdgeInsets.all(12),

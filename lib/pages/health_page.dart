@@ -151,7 +151,9 @@ class _HealthPageState extends State<HealthPage> {
                         child: CircleAvatar(
                           key: Key('userAvatar'),
                           backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage('$_urlProfile'),
+                          backgroundImage: ('$_urlProfile' == null)
+                              ? null
+                              : NetworkImage('$_urlProfile'),
                           radius: 40,
                         ),
                       ),
