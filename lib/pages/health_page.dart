@@ -37,6 +37,7 @@ class _HealthPageState extends State<HealthPage> {
   BluetoothCharacteristic metricChar;
   BluetoothDevice bleDevice;
   Stream<List<int>> bleStream;
+  String mqttPayload = "";
 
   getDevice() async {
     flutterBlue.startScan(timeout: Duration(seconds: 5));
@@ -96,6 +97,61 @@ class _HealthPageState extends State<HealthPage> {
     client.publishMessage(topic, MqttQos.atLeastOnce, messageBuilder.payload);
 
     client.disconnect();
+  }
+
+  mqttClient(topic, metric) async {
+    final client = MqttServerClient('test.mosquitto.org', '');
+    client.logging(on: false);
+    client.setProtocolV311();
+    client.keepAlivePeriod = 5;
+
+    final connMess = MqttConnectMessage()
+      .withClientIdentifier('Mqtt_MyClientUniqueId')
+      .withWillTopic('willtopic') // If you set this you must set a will message
+      .withWillMessage('My Will message')
+      .startClean() // Non persistent session for testing
+      .withWillQos(MqttQos.atLeastOnce);
+    print('EXAMPLE::Mosquitto client connecting....');
+    client.connectionMessage = connMess;
+
+    try {
+      await client.connect();
+    } on NoConnectionException catch (e) {
+      client.disconnect();
+    } on SocketException catch (e) {
+      client.disconnect();
+    }
+
+
+    print("before set state $metric");
+    if (client.connectionStatus.state == MqttConnectionState.connected) {
+      print('EXAMPLE::Mosquitto client connected');
+    } else {
+      print(
+          'EXAMPLE::ERROR Mosquitto client connection failed - disconnecting, status is ${client.connectionStatus}');
+      client.disconnect();
+      exit(-1);
+    }
+
+    client.subscribe(topic, MqttQos.atMostOnce);
+    client.updates.listen((List<MqttReceivedMessage<MqttMessage>> event) { 
+      final MqttPublishMessage recMessage = event[0].payload;
+      final String message = MqttPublishPayload.bytesToStringAsString(recMessage.payload.message);
+
+      if (metric == "Heart Rate") {
+        setState(() {
+          heartRate = message;
+        });
+      } else if (metric == "Oxygen Level") {
+        setState(() {
+          oxygenLevel = message;
+        });
+      }
+
+      client.unsubscribe(topic);
+      client.disconnect();
+      print("Client Disconnected, measure finished");
+    });
   }
 
   @override
@@ -205,18 +261,49 @@ class _HealthPageState extends State<HealthPage> {
                     return CircularProgressIndicator();
                   },
                 ),
+                // GestureDetector(
+                //     onTap: () {
+                //       mqttPublish("hr");
+                //     },
+                //     child: streamBuilder(heartRate, "heartRate", "Heart Rate",
+                //         Colors.blue.shade200, Key('heartRate'))),
+                // GestureDetector(
+                //     onTap: () {
+                //       mqttPublish("ox");
+                //     },
+                //     child: streamBuilder(oxygenLevel, "o2sat", "Oxygen Level",
+                //         Color.fromARGB(255, 255, 179, 128), Key('oxygenLvl'))),
                 GestureDetector(
-                    onTap: () {
-                      mqttPublish("hr");
-                    },
-                    child: streamBuilder(heartRate, "heartRate", "Heart Rate",
-                        Colors.blue.shade200, Key('heartRate'))),
+                  onTap: () {
+                    mqttPublish("hr");
+                    Fluttertoast.showToast(
+                      msg: "Measuring Heart Rate",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 5,
+                      backgroundColor: Colors.pink.shade50,
+                      textColor: Color.fromARGB(255, 75, 8, 88).withOpacity(0.6),
+                      fontSize: 16.0
+                    );
+                  },
+                  child: heartRateCardBuilder(heartRate, "HRREADING", "Heart Rate", Colors.blue.shade200)
+                ),
                 GestureDetector(
-                    onTap: () {
+                  onTap: () {
                       mqttPublish("ox");
+                      Fluttertoast.showToast(
+                        msg: "Measuring Oxygen Levels",
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 5,
+                        backgroundColor: Colors.pink.shade50,
+                        textColor: Color.fromARGB(255, 75, 8, 88).withOpacity(0.6),
+                        fontSize: 16.0
+                      );
                     },
-                    child: streamBuilder(oxygenLevel, "o2sat", "Oxygen Level",
-                        Color.fromARGB(255, 255, 179, 128), Key('oxygenLvl'))),
+                    child: oxygenLevelCardBuilder(oxygenLevel, "OXREADING", "Oxygen Level", Color.fromARGB(255, 255, 179, 128))
+                ),
+
                 // GestureDetector(
                 // onTap: () {
                 //   Random random = new Random();
@@ -352,6 +439,42 @@ class _HealthPageState extends State<HealthPage> {
           }
           return CircularProgressIndicator();
         });
+  }
+
+  Widget heartRateCardBuilder(String metric, String topic, String textFormatting, Color widgetColour) {
+    mqttClient(topic, textFormatting);
+    
+    return HealthRiskCards(
+      color: widgetColour,
+      title: Text(textFormatting,
+          style: TextStyle(
+              color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+              fontSize: 16,
+              fontWeight: FontWeight.bold)),
+      value: Text(heartRate,
+          style: TextStyle(
+              color: Colors.black.withOpacity(0.5),
+              fontSize: 60,
+              fontWeight: FontWeight.bold)),
+    ); 
+  }
+
+  Widget oxygenLevelCardBuilder(String metric, String topic, String textFormatting, Color widgetColour) {
+    mqttClient(topic, textFormatting);
+
+    return HealthRiskCards(
+      color: widgetColour,
+      title: Text(textFormatting,
+          style: TextStyle(
+              color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+              fontSize: 16,
+              fontWeight: FontWeight.bold)),
+      value: Text(oxygenLevel,
+          style: TextStyle(
+              color: Colors.black.withOpacity(0.5),
+              fontSize: 60,
+              fontWeight: FontWeight.bold)),
+    ); 
   }
 
   Widget streamBuilder(String metric, String dbReading, String textFormatting,
