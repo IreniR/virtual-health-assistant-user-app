@@ -10,12 +10,7 @@ class HealthSubCards extends StatelessWidget {
   final Icon icon;
 
   const HealthSubCards(
-      {Key key,
-      @required this.title,
-      this.subtitle,
-      this.widgets,
-      this.color,
-      this.icon})
+      {Key key, this.title, this.subtitle, this.widgets, this.color, this.icon})
       : super(key: key);
 
   @override
